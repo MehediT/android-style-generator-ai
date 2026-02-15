@@ -2,6 +2,7 @@ package com.toure.mehedi.style_generator_ai.ui.screens.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Settings
@@ -132,7 +133,7 @@ private fun NavigationCard(
             }
 
             Icon(
-                imageVector = Icons.Filled.ArrowForward,
+                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                 contentDescription = "Naviguer",
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
