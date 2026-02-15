@@ -33,8 +33,7 @@ fun HomeScreen(
             TopAppBar(
                 title = {
                     Column(
-                        modifier = Modifier.width(IntrinsicSize.Min),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Text(
@@ -42,7 +41,7 @@ fun HomeScreen(
                         )
                         Box(
                             modifier = Modifier
-                                .fillMaxWidth()
+                                .defaultMinSize(120.dp)
                                 .height(3.dp)
                                 .background(MaterialTheme.colorScheme.onPrimaryContainer)
                         )
