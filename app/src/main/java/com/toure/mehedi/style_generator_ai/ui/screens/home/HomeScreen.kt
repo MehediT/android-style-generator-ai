@@ -32,13 +32,17 @@ fun HomeScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Column {
+                    Column(
+                        modifier = Modifier.width(IntrinsicSize.Min),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         Text(
                             text = "For you, name", // TODO: Replace "name" with actual user name
                         )
                         Box(
                             modifier = Modifier
-                                .width(120.dp)
+                                .fillMaxWidth()
                                 .height(3.dp)
                                 .background(MaterialTheme.colorScheme.onPrimaryContainer)
                         )
