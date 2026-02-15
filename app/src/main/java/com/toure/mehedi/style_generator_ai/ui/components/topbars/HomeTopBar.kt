@@ -1,4 +1,4 @@
-package com.toure.mehedi.style_generator_ai.ui.screens.home.components
+package com.toure.mehedi.style_generator_ai.ui.components.topbars
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
