@@ -1,5 +1,6 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -14,7 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
@@ -32,10 +32,17 @@ fun HomeScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "For you, name", // TODO: Replace "name" with actual user name
-                        textDecoration = TextDecoration.Underline
-                    )
+                    Column {
+                        Text(
+                            text = "For you, name", // TODO: Replace "name" with actual user name
+                        )
+                        Box(
+                            modifier = Modifier
+                                .width(120.dp)
+                                .height(3.dp)
+                                .background(MaterialTheme.colorScheme.onPrimaryContainer)
+                        )
+                    }
                 },
                 actions = {
                     IconButton(onClick = { /* TODO: Navigate to recommendations */ }) {
