@@ -89,3 +89,6 @@ lint/tmp/
 
 # Gradle wrapper (uncomment if you want to require specific gradle version)
 # !gradle/wrapper/gradle-wrapper.jar
+
+# Claude Code
+.claude/
