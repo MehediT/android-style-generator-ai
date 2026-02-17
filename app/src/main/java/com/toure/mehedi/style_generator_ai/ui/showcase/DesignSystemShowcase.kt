@@ -65,7 +65,7 @@ fun DesignSystemShowcase() {
         ) {
             // Header
             Text(
-                text = "Design System Pinterest",
+                text = "Design System",
                 style = MaterialTheme.typography.displayLarge,
                 color = CharcoalBlack
             )

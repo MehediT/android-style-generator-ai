@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,4 +44,10 @@ fun HomeTopBar() {
             titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     )
+}
+
+@Preview
+@Composable
+private fun HomeTopBarPrev() {
+    HomeTopBar()
 }
