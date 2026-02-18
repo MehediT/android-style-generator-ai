@@ -1,53 +1,83 @@
 package com.toure.mehedi.style_generator_ai.ui.components.topbars
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.toure.mehedi.style_generator_ai.R
+import com.toure.mehedi.style_generator_ai.navigation.Routes
+import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopBar() {
-    TopAppBar(
+fun HomeTopBar(
+    modifier: Modifier = Modifier,
+    navigateToExplore: () -> Unit = {},
+    navigateToRecommendations: () -> Unit = {},
+    openNotificationsModal: () -> Unit = {},
+    notificationCount: Int = 0,
+    searchQuery: (String) -> Unit = {},
+    clearSearchQuery: () -> Unit = {},
+    currentDestination: String = Routes.Explore.route
+) {
+    CenterAlignedTopAppBar(
+        modifier = modifier,
         title = {
-            Column(
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = "For you, name", // TODO: Replace "name" with actual user name
+                NotificationBadges(
+                    modifier = Modifier,
+                    onNotificationClick = openNotificationsModal,
+                    notificationCount = notificationCount
                 )
-                Box(
-                    modifier = Modifier
-                        .defaultMinSize(120.dp)
-                        .height(3.dp)
-                        .background(MaterialTheme.colorScheme.onPrimaryContainer)
+                Row(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    DestinationChip(
+                        modifier = Modifier
+                            .height(40.dp),
+                        title = stringResource(R.string.explore),
+                        onChipClick = navigateToExplore,
+                        selected = currentDestination == Routes.Explore.route,
+                    )
+                    DestinationChip(
+                        modifier = Modifier
+                            .height(40.dp),
+                        title = stringResource(R.string.for_you),
+                        onChipClick = navigateToRecommendations,
+                        selected = currentDestination == Routes.Recommendations.route,
+                    )
+                }
+                SearchBadge(
+                    modifier = Modifier,
+                    onSearchClick = {
+                        // TODO : Faire une animation et géré les query ect
+                    }
                 )
             }
-        },
-        actions = {
-            IconButton(onClick = { /* TODO: Navigate to recommendations */ }) {
-                Icon(
-                    imageVector = Icons.Filled.Info,
-                    contentDescription = "Recommendations"
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
+        }
     )
 }
 
 @Preview
 @Composable
 private fun HomeTopBarPrev() {
-    HomeTopBar()
+    AppTheme {
+        HomeTopBar(
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
 }
