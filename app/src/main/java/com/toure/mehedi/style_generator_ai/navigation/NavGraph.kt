@@ -11,13 +11,13 @@ import com.toure.mehedi.style_generator_ai.ui.screens.explore.ExploreScreen
 fun NavGraph(
     navController: NavHostController,
     paddingValues: PaddingValues,
-    startDestination: String = Routes.Home.route
+    startDestination: String = Routes.Explore.route
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(route = Routes.Home.route) {
+        composable(route = Routes.Explore.route) {
             ExploreScreen(
                 paddingValues = paddingValues,
             )

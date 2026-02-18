@@ -20,26 +20,28 @@ private val DarkColorScheme = darkColorScheme(
     primaryContainer = PinterestRedHover,
     onPrimaryContainer = PureWhite,
 
-    secondary = MediumGray,
-    onSecondary = PureWhite,
+    secondary = DarkOnSurfaceVariant,
+    onSecondary = DarkBackground,
 
     tertiary = Info,
     onTertiary = PureWhite,
 
-    background = CharcoalBlack,
-    onBackground = BackgroundWhite,
+    background = DarkBackground,
+    onBackground = DarkOnSurface,
 
-    surface = CharcoalBlack,
-    onSurface = BackgroundWhite,
+    surface = DarkSurface,
+    onSurface = DarkOnSurface,
 
-    surfaceVariant = LightGray,
-    onSurfaceVariant = CharcoalBlack,
+    surfaceVariant = DarkSurfaceVariant,
+    onSurfaceVariant = DarkOnSurfaceVariant,
+
+    surfaceContainer = DarkSurfaceElevated,
 
     error = Error,
     onError = PureWhite,
 
-    outline = LightGray,
-    outlineVariant = MediumGray
+    outline = DarkOutline,
+    outlineVariant = DarkOutlineVariant
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -71,9 +73,8 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun AndroidstylegeneratoraiTheme(
+fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color désactivé par défaut pour respecter le design Pinterest
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {

@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import com.toure.mehedi.style_generator_ai.navigation.NavGraph
 import com.toure.mehedi.style_generator_ai.ui.MainScaffold
-import com.toure.mehedi.style_generator_ai.ui.theme.AndroidstylegeneratoraiTheme
+import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AndroidstylegeneratoraiTheme {
+            AppTheme {
                 val navController = rememberNavController()
                 MainScaffold(navController = navController) { paddingValues ->
                     NavGraph(
