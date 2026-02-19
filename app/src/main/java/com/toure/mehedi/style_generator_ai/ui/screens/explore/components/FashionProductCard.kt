@@ -39,11 +39,21 @@ fun FashionProductCard(
         )
         Box(
             modifier = Modifier
+                .padding(Spacing.xxs)
+                .align(Alignment.BottomEnd)
                 .background(
                     color = MaterialTheme.colorScheme.primaryContainer,
-                    shape = RoundedCornerShape(BorderRadius.small)
+                    shape = RoundedCornerShape(
+                        topStart = BorderRadius.small,
+                        bottomStart = BorderRadius.small,
+                        bottomEnd = BorderRadius.large,
+                        topEnd = BorderRadius.small,
+                    )
                 )
-                .padding(Spacing.xxs),
+                .padding(
+                    vertical = Spacing.xxs,
+                    horizontal = Spacing.xs
+                ),
             contentAlignment = Alignment.Center
         ) {
             Text(

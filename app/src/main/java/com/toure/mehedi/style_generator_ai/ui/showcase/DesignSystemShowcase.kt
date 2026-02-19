@@ -166,7 +166,7 @@ private fun ColorPaletteSection(
                     .size(48.dp)
                     .background(
                         color = colorItem.color,
-                        shape = RoundedCornerShape(BorderRadius.small)
+                        shape = RoundedCornerShape(BorderRadius.tiny)
                     )
             )
             Spacer(modifier = Modifier.width(Spacing.m))
