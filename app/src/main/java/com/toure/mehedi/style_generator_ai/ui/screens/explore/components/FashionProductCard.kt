@@ -34,7 +34,6 @@ fun FashionProductCard(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(product.aspectRatio)
                 .clip(RoundedCornerShape(BorderRadius.large))
         )
         Box(

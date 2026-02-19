@@ -12,7 +12,6 @@ data class FashionProduct(
     val tags: List<String> = emptyList(),
     val gender: Gender? = null,
     val style: String? = null,
-    val color: String? = null,
     val isPremium: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 )
@@ -28,7 +27,6 @@ val sampleFashionProducts = listOf(
         tags = listOf("casual", "basic", "black", "unisex"),
         gender = Gender.UNISEX,
         style = "Casual",
-        color = "Black"
     ),
     FashionProduct(
         id = "product_2",
@@ -40,7 +38,6 @@ val sampleFashionProducts = listOf(
         tags = listOf("summer", "dress", "women", "colorful"),
         gender = Gender.WOMEN,
         style = "Summer",
-        color = "Multi-color"
     ),
     FashionProduct(
         id = "product_3",
@@ -52,7 +49,6 @@ val sampleFashionProducts = listOf(
         tags = listOf("jacket", "leather", "edgy", "men"),
         gender = Gender.MEN,
         style = "Street",
-        color = "Black",
         isPremium = true
     ),
     FashionProduct(
@@ -65,7 +61,6 @@ val sampleFashionProducts = listOf(
         tags = listOf("shoes", "sneakers", "sport", "unisex"),
         gender = Gender.UNISEX,
         style = "Sport",
-        color = "White & Blue"
     ),
     FashionProduct(
         id = "product_5",
@@ -77,7 +72,6 @@ val sampleFashionProducts = listOf(
         tags = listOf("bag", "handbag", "elegant", "women"),
         gender = Gender.WOMEN,
         style = "Luxury",
-        color = "Brown",
         isPremium = true
     ),
     FashionProduct(
@@ -90,7 +84,6 @@ val sampleFashionProducts = listOf(
         tags = listOf("jewelry", "necklace", "gold", "elegant"),
         gender = Gender.WOMEN,
         style = "Minimalist",
-        color = "Gold"
     ),
     FashionProduct(
         id = "product_7",
@@ -102,7 +95,6 @@ val sampleFashionProducts = listOf(
         tags = listOf("accessory", "cap", "casual", "unisex"),
         gender = Gender.UNISEX,
         style = "Casual",
-        color = "Navy Blue"
     ),
     FashionProduct(
         id = "product_8",
@@ -114,7 +106,6 @@ val sampleFashionProducts = listOf(
         tags = listOf("accessory", "scarf", "silk", "women"),
         gender = Gender.WOMEN,
         style = "Elegant",
-        color = "Red",
         isPremium = true
     )
 )
