@@ -1,35 +1,49 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.explore
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.FashionProductCard
+import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
 @Composable
 fun ExploreScreen(
+    modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
     viewModel: ExploreViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Column(
-        modifier = Modifier
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        modifier = modifier
             .fillMaxSize()
-            .padding(paddingValues)
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(paddingValues),
+        contentPadding = PaddingValues(horizontal = Spacing.m, vertical = Spacing.s),
+        horizontalArrangement = Arrangement.spacedBy(Spacing.s),
+        verticalItemSpacing = Spacing.s
     ) {
-        Text(
-            text = uiState.welcomeMessage,
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold
-        )
+        items(uiState.products, key = { it.id }) { product ->
+            FashionProductCard(product = product)
+        }
     }
+}
+
+
+@Preview
+@Composable
+private fun ExploreScreenPrev() {
+    ExploreScreen(
+        paddingValues = PaddingValues()
+    )
 }
