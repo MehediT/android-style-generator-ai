@@ -18,17 +18,28 @@ import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
 @Composable
 fun ExploreScreen(
-    modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
+    modifier: Modifier = Modifier,
     viewModel: ExploreViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
+    ExploreContent(
         modifier = modifier
             .fillMaxSize()
             .padding(paddingValues),
+        uiState = uiState
+    )
+}
+
+@Composable
+private fun ExploreContent(
+    modifier: Modifier,
+    uiState: ExploreUiState
+) {
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        modifier = modifier,
         contentPadding = PaddingValues(horizontal = Spacing.m, vertical = Spacing.s),
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
         verticalItemSpacing = Spacing.s
@@ -42,8 +53,9 @@ fun ExploreScreen(
 
 @Preview
 @Composable
-private fun ExploreScreenPrev() {
-    ExploreScreen(
-        paddingValues = PaddingValues()
+private fun ExploreContentPrev() {
+    ExploreContent(
+        modifier = Modifier.fillMaxSize(),
+        uiState = ExploreUiState()
     )
 }

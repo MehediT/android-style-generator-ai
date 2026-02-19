@@ -16,3 +16,105 @@ data class FashionProduct(
     val isPremium: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 )
+
+val sampleFashionProducts = listOf(
+    FashionProduct(
+        id = "product_1",
+        name = "Classic Black T-Shirt",
+        description = "Timeless black t-shirt perfect for any casual outfit",
+        category = FashionCategory.CLOTHING,
+        imageUrl = "https://gjmcvtxbeisgwgrvotnz.supabase.co/storage/v1/object/public/image_test/clothe1.jpg",
+        aspectRatio = 1f,
+        tags = listOf("casual", "basic", "black", "unisex"),
+        gender = Gender.UNISEX,
+        style = "Casual",
+        color = "Black"
+    ),
+    FashionProduct(
+        id = "product_2",
+        name = "Summer Dress",
+        description = "Light and breezy summer dress for warm days",
+        category = FashionCategory.CLOTHING,
+        imageUrl = "https://gjmcvtxbeisgwgrvotnz.supabase.co/storage/v1/object/public/image_test/clothe2.jpg",
+        aspectRatio = 1f,
+        tags = listOf("summer", "dress", "women", "colorful"),
+        gender = Gender.WOMEN,
+        style = "Summer",
+        color = "Multi-color"
+    ),
+    FashionProduct(
+        id = "product_3",
+        name = "Leather Jacket",
+        description = "Edgy leather jacket to elevate any look",
+        category = FashionCategory.CLOTHING,
+        imageUrl = "https://gjmcvtxbeisgwgrvotnz.supabase.co/storage/v1/object/public/image_test/clothe3.jpg",
+        aspectRatio = 1f,
+        tags = listOf("jacket", "leather", "edgy", "men"),
+        gender = Gender.MEN,
+        style = "Street",
+        color = "Black",
+        isPremium = true
+    ),
+    FashionProduct(
+        id = "product_4",
+        name = "Running Sneakers",
+        description = "High-performance sneakers for all your athletic needs",
+        category = FashionCategory.SHOES,
+        imageUrl = "https://gjmcvtxbeisgwgrvotnz.supabase.co/storage/v1/object/public/image_test/clothe4.jpg",
+        aspectRatio = 1f,
+        tags = listOf("shoes", "sneakers", "sport", "unisex"),
+        gender = Gender.UNISEX,
+        style = "Sport",
+        color = "White & Blue"
+    ),
+    FashionProduct(
+        id = "product_5",
+        name = "Designer Handbag",
+        description = "Elegant handbag perfect for any occasion",
+        category = FashionCategory.BAG,
+        imageUrl = "https://gjmcvtxbeisgwgrvotnz.supabase.co/storage/v1/object/public/image_test/clothe5.jpg",
+        aspectRatio = 1f,
+        tags = listOf("bag", "handbag", "elegant", "women"),
+        gender = Gender.WOMEN,
+        style = "Luxury",
+        color = "Brown",
+        isPremium = true
+    ),
+    FashionProduct(
+        id = "product_6",
+        name = "Gold Necklace",
+        description = "Delicate gold necklace with minimalist design",
+        category = FashionCategory.JEWELRY,
+        imageUrl = "https://gjmcvtxbeisgwgrvotnz.supabase.co/storage/v1/object/public/image_test/clothe6.jpg",
+        aspectRatio = 1f,
+        tags = listOf("jewelry", "necklace", "gold", "elegant"),
+        gender = Gender.WOMEN,
+        style = "Minimalist",
+        color = "Gold"
+    ),
+    FashionProduct(
+        id = "product_7",
+        name = "Baseball Cap",
+        description = "Classic baseball cap for casual style",
+        category = FashionCategory.ACCESSORY,
+        imageUrl = "https://gjmcvtxbeisgwgrvotnz.supabase.co/storage/v1/object/public/image_test/clothe7.jpg",
+        aspectRatio = 1f,
+        tags = listOf("accessory", "cap", "casual", "unisex"),
+        gender = Gender.UNISEX,
+        style = "Casual",
+        color = "Navy Blue"
+    ),
+    FashionProduct(
+        id = "product_8",
+        name = "Silk Scarf",
+        description = "Premium silk scarf for sophisticated elegance",
+        category = FashionCategory.ACCESSORY,
+        imageUrl = "https://gjmcvtxbeisgwgrvotnz.supabase.co/storage/v1/object/public/image_test/clothe8.jpg",
+        aspectRatio = 1f,
+        tags = listOf("accessory", "scarf", "silk", "women"),
+        gender = Gender.WOMEN,
+        style = "Elegant",
+        color = "Red",
+        isPremium = true
+    )
+)
