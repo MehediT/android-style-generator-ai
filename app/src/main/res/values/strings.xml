@@ -2,4 +2,6 @@
     <string name="app_name">android-style-generator-ai</string>
     <string name="explore">Explore</string>
     <string name="for_you">For you</string>
+    <string name="trending">Trending</string>
+    <string name="new_arrivals">New Arrivals</string>
 </resources>
