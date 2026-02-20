@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -29,11 +28,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.toure.mehedi.style_generator_ai.ui.components.PrimaryButton
 import com.toure.mehedi.style_generator_ai.ui.components.SecondaryButton
 import com.toure.mehedi.style_generator_ai.ui.components.TertiaryButton
-import com.toure.mehedi.style_generator_ai.ui.theme.AndroidstylegeneratoraiTheme
+import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 import com.toure.mehedi.style_generator_ai.ui.theme.BackgroundWhite
 import com.toure.mehedi.style_generator_ai.ui.theme.BorderRadius
 import com.toure.mehedi.style_generator_ai.ui.theme.CharcoalBlack
@@ -42,8 +40,6 @@ import com.toure.mehedi.style_generator_ai.ui.theme.Error
 import com.toure.mehedi.style_generator_ai.ui.theme.Info
 import com.toure.mehedi.style_generator_ai.ui.theme.LightGray
 import com.toure.mehedi.style_generator_ai.ui.theme.MediumGray
-import com.toure.mehedi.style_generator_ai.ui.theme.OverlayDark
-import com.toure.mehedi.style_generator_ai.ui.theme.OverlayLight
 import com.toure.mehedi.style_generator_ai.ui.theme.PinterestRed
 import com.toure.mehedi.style_generator_ai.ui.theme.PinterestRedHover
 import com.toure.mehedi.style_generator_ai.ui.theme.PureWhite
@@ -65,7 +61,7 @@ fun DesignSystemShowcase() {
         ) {
             // Header
             Text(
-                text = "Design System Pinterest",
+                text = "Design System",
                 style = MaterialTheme.typography.displayLarge,
                 color = CharcoalBlack
             )
@@ -170,7 +166,7 @@ private fun ColorPaletteSection(
                     .size(48.dp)
                     .background(
                         color = colorItem.color,
-                        shape = RoundedCornerShape(BorderRadius.small)
+                        shape = RoundedCornerShape(BorderRadius.tiny)
                     )
             )
             Spacer(modifier = Modifier.width(Spacing.m))
@@ -338,7 +334,7 @@ private data class ColorItem(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun DesignSystemShowcasePreview() {
-    AndroidstylegeneratoraiTheme {
+    AppTheme {
         DesignSystemShowcase()
     }
 }

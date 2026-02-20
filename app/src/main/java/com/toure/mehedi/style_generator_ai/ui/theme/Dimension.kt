@@ -16,7 +16,8 @@ object Spacing {
 
 // ===== Border Radius =====
 object BorderRadius {
-    val small = 4.dp    // inputs, petits éléments
+    val tiny = 4.dp    // inputs, petits éléments
+    val small = 6.dp
     val medium = 8.dp   // cartes, boutons standards
     val large = 12.dp   // modales, grandes cartes
     val xLarge = 16.dp  // images featured, hero cards

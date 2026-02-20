@@ -10,7 +10,6 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -21,26 +20,28 @@ private val DarkColorScheme = darkColorScheme(
     primaryContainer = PinterestRedHover,
     onPrimaryContainer = PureWhite,
 
-    secondary = MediumGray,
-    onSecondary = PureWhite,
+    secondary = DarkOnSurfaceVariant,
+    onSecondary = DarkBackground,
 
     tertiary = Info,
     onTertiary = PureWhite,
 
-    background = CharcoalBlack,
-    onBackground = BackgroundWhite,
+    background = DarkBackground,
+    onBackground = DarkOnSurface,
 
-    surface = CharcoalBlack,
-    onSurface = BackgroundWhite,
+    surface = DarkSurface,
+    onSurface = DarkOnSurface,
 
-    surfaceVariant = LightGray,
-    onSurfaceVariant = CharcoalBlack,
+    surfaceVariant = DarkSurfaceVariant,
+    onSurfaceVariant = DarkOnSurfaceVariant,
+
+    surfaceContainer = DarkSurfaceElevated,
 
     error = Error,
     onError = PureWhite,
 
-    outline = LightGray,
-    outlineVariant = MediumGray
+    outline = DarkOutline,
+    outlineVariant = DarkOutlineVariant
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -72,9 +73,8 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun AndroidstylegeneratoraiTheme(
+fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color désactivé par défaut pour respecter le design Pinterest
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
@@ -91,7 +91,6 @@ fun AndroidstylegeneratoraiTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.background.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
