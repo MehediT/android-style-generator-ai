@@ -13,6 +13,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.toure.mehedi.style_generator_ai.ui.models.ExploreCard
+import com.toure.mehedi.style_generator_ai.ui.models.FashionProduct
+import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.PromotionAction
+import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.PromotionCard
+import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.PromotionCardComposable
 import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.FashionProductCard
 import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
@@ -37,6 +42,26 @@ private fun ExploreContent(
     modifier: Modifier,
     uiState: ExploreUiState
 ) {
+    // Crée une liste qui alterne produits et promotions
+    val itemsWithPromotions: List<ExploreCard> = buildList {
+        var productCount = 0
+        uiState.products.forEach { product ->
+            add(product)
+            productCount++
+            // Ajoute une promotion après le 2ème, 5ème, 8ème produit, etc.
+            if (productCount % 3 == 2) {
+                add(
+                    PromotionCard(
+                        id = "premium_$productCount",
+                        title = "Premium",
+                        description = "Get Premium access",
+                        action = PromotionAction.Premium
+                    )
+                )
+            }
+        }
+    }
+
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         modifier = modifier,
@@ -44,8 +69,18 @@ private fun ExploreContent(
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
         verticalItemSpacing = Spacing.s
     ) {
-        items(uiState.products, key = { it.id }) { product ->
-            FashionProductCard(product = product)
+        items(itemsWithPromotions.size) { index ->
+            when (val item = itemsWithPromotions[index]) {
+                is PromotionCard -> {
+                    PromotionCardComposable(
+                        promotionCard = item,
+                        onClick = { /* Handle promotion click */ }
+                    )
+                }
+                is FashionProduct -> {
+                    FashionProductCard(product = item)
+                }
+            }
         }
     }
 }

@@ -1,9 +1,9 @@
 package com.toure.mehedi.style_generator_ai.ui.models
 
 data class FashionProduct(
-    val id: String,
+    override val id: String,
     val name: String,
-    val description: String,
+    override val description: String,
     val category: FashionCategory,
     val negativePrompt: String? = null,
     val imageUrl: String,
@@ -14,7 +14,10 @@ data class FashionProduct(
     val style: String? = null,
     val isPremium: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
-)
+) : ExploreCard {
+    override val title: String
+        get() = name
+}
 
 val sampleFashionProducts = listOf(
     FashionProduct(

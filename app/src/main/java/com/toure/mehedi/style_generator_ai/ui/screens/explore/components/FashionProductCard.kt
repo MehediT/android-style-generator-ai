@@ -2,7 +2,6 @@ package com.toure.mehedi.style_generator_ai.ui.screens.explore.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -80,7 +79,6 @@ private fun FashionProductCardPrev() {
             tags = listOf("casual", "basic", "black", "unisex"),
             gender = Gender.UNISEX,
             style = "Casual",
-            color = "Black"
         )
     )
 }
