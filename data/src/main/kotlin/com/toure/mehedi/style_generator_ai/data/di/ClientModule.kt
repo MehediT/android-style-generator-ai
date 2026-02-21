@@ -1,10 +1,6 @@
 package com.toure.mehedi.style_generator_ai.data.di
 
 import com.toure.mehedi.style_generator_ai.data.config.SupabaseAppConfig
-import com.toure.mehedi.style_generator_ai.data.remote.service.FashionProductService
-import com.toure.mehedi.style_generator_ai.data.repository.FashionProductRepositoryImpl
-import com.toure.mehedi.style_generator_ai.domain.repository.FashionProductRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,17 +15,21 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class ClientModule {
+object ClientModule {
     @Provides
     @Singleton
-    fun provideSupabaseClient(): SupabaseClient =
-        createSupabaseClient(
+    fun provideSupabaseClient(): SupabaseClient {
+        if (!SupabaseAppConfig.isSupabaseConfigured())
+            throw IllegalStateException("Supabase is not configured")
+        return createSupabaseClient(
             supabaseUrl = SupabaseAppConfig.supabaseUrl,
             supabaseKey = SupabaseAppConfig.supabaseAnonKey
-        ){
+        ) {
             install(Auth)
             install(Postgrest)
             install(Realtime)
             install(Storage)
         }
+    }
+
 }
