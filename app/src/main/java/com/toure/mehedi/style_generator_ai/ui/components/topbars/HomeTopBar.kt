@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.toure.mehedi.style_generator_ai.R
 import com.toure.mehedi.style_generator_ai.navigation.Routes
 import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
+import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,43 +32,43 @@ fun HomeTopBar(
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
+        actions = {
+            SearchBadge(
+                modifier = Modifier.padding(horizontal = Spacing.xxs),
+                onSearchClick = {
+                    // TODO : Faire une animation et géré les query ect
+                }
+            )
+        },
+        navigationIcon = {
+            NotificationBadges(
+                modifier = Modifier.padding(horizontal = Spacing.xxs),
+                onNotificationClick = openNotificationsModal,
+                notificationCount = notificationCount
+            )
+        },
         title = {
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                NotificationBadges(
-                    modifier = Modifier,
-                    onNotificationClick = openNotificationsModal,
-                    notificationCount = notificationCount
+                DestinationChip(
+                    modifier = Modifier
+                        .height(40.dp),
+                    title = stringResource(R.string.explore),
+                    onChipClick = navigateToExplore,
+                    selected = currentDestination == Routes.Explore.route,
                 )
-                Row(
-                    modifier = Modifier.weight(1f),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    DestinationChip(
-                        modifier = Modifier
-                            .height(40.dp),
-                        title = stringResource(R.string.explore),
-                        onChipClick = navigateToExplore,
-                        selected = currentDestination == Routes.Explore.route,
-                    )
-                    DestinationChip(
-                        modifier = Modifier
-                            .height(40.dp),
-                        title = stringResource(R.string.for_you),
-                        onChipClick = navigateToRecommendations,
-                        selected = currentDestination == Routes.Recommendations.route,
-                    )
-                }
-                SearchBadge(
-                    modifier = Modifier,
-                    onSearchClick = {
-                        // TODO : Faire une animation et géré les query ect
-                    }
+                DestinationChip(
+                    modifier = Modifier
+                        .height(40.dp),
+                    title = stringResource(R.string.for_you),
+                    onChipClick = navigateToRecommendations,
+                    selected = currentDestination == Routes.Recommendations.route,
                 )
             }
+
         }
     )
 }
