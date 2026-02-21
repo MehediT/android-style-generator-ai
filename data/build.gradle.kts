@@ -11,6 +11,29 @@ android {
 
     defaultConfig {
         minSdk = 27
+
+        // Modern Gradle way (Providers API)
+        buildConfigField(
+            "String",
+            "SUPABASE_URL",
+            providers.gradleProperty("supabase.url")
+                .map { "\"$it\"" }
+                .orElse("\"\"")
+                .get()
+        )
+
+        buildConfigField(
+            "String",
+            "SUPABASE_ANON_KEY",
+            providers.gradleProperty("supabase.anon_key")
+                .map { "\"$it\"" }
+                .orElse("\"\"")
+                .get()
+        )
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     compileOptions {
@@ -30,10 +53,6 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.javax.inject)
-
-    // TODO: Add Retrofit when server is ready
-    // implementation(libs.retrofit)
-    // implementation(libs.retrofit.converter.gson)
 
     implementation(platform(libs.bom))
     implementation(libs.postgrest.kt)
