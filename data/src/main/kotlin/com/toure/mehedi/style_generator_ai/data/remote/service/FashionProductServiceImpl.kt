@@ -1,5 +1,6 @@
 package com.toure.mehedi.style_generator_ai.data.remote.service
 
+import android.util.Log
 import com.toure.mehedi.style_generator_ai.data.remote.dto.FashionProductDto
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
@@ -19,6 +20,7 @@ class FashionProductService @Inject constructor(
             supabase.from(FashionProductDto.tableName)
                 .select()
                 .decodeList<FashionProductDto>()
+                .also { raw -> Log.d(TAG, "Raw DTOs from Supabase (${raw.size}): $raw") }
                 .map { product ->
                     async {
                         product.copy(
@@ -29,6 +31,10 @@ class FashionProductService @Inject constructor(
                 }
                 .awaitAll()
         }
+
+    companion object {
+        private const val TAG = "FashionProductService"
+    }
 
     private suspend fun String.pathToUrl(): String =
         supabase.storage.from(FashionProductDto.tableName)
