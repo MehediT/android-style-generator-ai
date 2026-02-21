@@ -1,8 +1,8 @@
 package com.toure.mehedi.style_generator_ai.data.config
 
-import com.toure.mehedi.style_generator_ai.BuildConfig
+import com.toure.mehedi.style_generator_ai.data.BuildConfig
 
-object AppConfig {
+object SupabaseAppConfig {
     val supabaseUrl: String
         get() = BuildConfig.SUPABASE_URL
 
