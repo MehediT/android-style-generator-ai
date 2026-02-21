@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "android-style-generator-ai"
 include(":app")
+include(":domain")
+include(":data")

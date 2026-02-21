@@ -4,7 +4,8 @@
       "Bash(./gradlew clean build:*)",
       "Bash(./gradlew assembleDebug:*)",
       "Bash(git add:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "Bash(./gradlew lint:*)"
     ]
   }
 }
