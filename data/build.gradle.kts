@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.hilt.android)
@@ -12,15 +14,17 @@ android {
     defaultConfig {
         minSdk = 27
 
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { localProperties.load(it) }
+        }
+
         fun buildStringConfig(name: String, property: String) {
-            buildConfigField(
-                "String",
-                name,
-                providers.gradleProperty(property)
-                    .map { "\"$it\"" }
-                    .orElse("\"\"")
-                    .get()
-            )
+            val value = providers.gradleProperty(property)
+                .orElse(localProperties.getProperty(property) ?: "")
+                .get()
+            buildConfigField("String", name, "\"$value\"")
         }
 
         buildStringConfig("SUPABASE_URL", "supabase.url")
