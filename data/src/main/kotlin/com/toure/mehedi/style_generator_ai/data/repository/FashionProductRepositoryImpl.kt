@@ -1,8 +1,7 @@
 package com.toure.mehedi.style_generator_ai.data.repository
 
 import com.toure.mehedi.style_generator_ai.data.mapper.toDomain
-import com.toure.mehedi.style_generator_ai.data.remote.FashionProductService
-import com.toure.mehedi.style_generator_ai.domain.model.FashionCategory
+import com.toure.mehedi.style_generator_ai.data.remote.service.FashionProductService
 import com.toure.mehedi.style_generator_ai.domain.model.FashionProduct
 import com.toure.mehedi.style_generator_ai.domain.repository.FashionProductRepository
 import javax.inject.Inject

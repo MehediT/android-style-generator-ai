@@ -1,6 +1,6 @@
 package com.toure.mehedi.style_generator_ai.data.di
 
-import com.toure.mehedi.style_generator_ai.data.remote.FashionProductService
+import com.toure.mehedi.style_generator_ai.data.remote.service.FashionProductService
 import com.toure.mehedi.style_generator_ai.data.repository.FashionProductRepositoryImpl
 import com.toure.mehedi.style_generator_ai.domain.repository.FashionProductRepository
 import dagger.Binds
