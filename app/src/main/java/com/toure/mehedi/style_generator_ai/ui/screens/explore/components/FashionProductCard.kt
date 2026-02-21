@@ -72,7 +72,7 @@ private fun FashionProductCardPrev() {
             id = "product_1",
             name = "Classic Black T-Shirt",
             description = "Timeless black t-shirt perfect for any casual outfit",
-            category = FashionCategory.CLOTHING,
+            category = "CLOTHING",
             imageUrl = "https://gjmcvtxbeisgwgrvotnz.supabase.co/storage/v1/object/public/image_test/clothe1.jpg",
             aspectRatio = 1f,
             tags = listOf("casual", "basic", "black", "unisex"),
