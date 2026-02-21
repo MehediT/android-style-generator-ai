@@ -6,7 +6,7 @@ data class FashionProductDto(
     val description: String,
     val category: String,
     val negativePrompt: String? = null,
-    val imageUrl: String,
+    val imagePath: String,
     val aspectRatio: Float,
     val thumbnailUrl: String? = null,
     val tags: List<String> = emptyList(),
