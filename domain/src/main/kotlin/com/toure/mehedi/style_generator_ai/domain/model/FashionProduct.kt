@@ -4,7 +4,7 @@ data class FashionProduct(
     val id: String,
     val name: String,
     val description: String,
-    val category: FashionCategory,
+    val category: String,
     val negativePrompt: String? = null,
     val imageUrl: String,
     val aspectRatio: Float,

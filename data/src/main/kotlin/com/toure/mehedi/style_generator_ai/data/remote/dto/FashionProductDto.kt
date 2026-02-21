@@ -14,4 +14,8 @@ data class FashionProductDto(
     val style: String? = null,
     val isPremium: Boolean = false,
     val createdAt: Long = 0L
-)
+) {
+    companion object {
+        val tableName = "fashion_product"
+    }
+}

@@ -18,10 +18,4 @@ abstract class RepositoryModule {
     abstract fun bindFashionProductRepository(
         impl: FashionProductRepositoryImpl
     ): FashionProductRepository
-
-    companion object {
-        @Provides
-        @Singleton
-        fun provideFashionProductService(): FashionProductService = object : FashionProductService {}
-    }
 }

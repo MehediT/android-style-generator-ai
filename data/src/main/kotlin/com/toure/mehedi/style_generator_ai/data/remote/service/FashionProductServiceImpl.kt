@@ -1,8 +1,36 @@
 package com.toure.mehedi.style_generator_ai.data.remote.service
 
 import com.toure.mehedi.style_generator_ai.data.remote.dto.FashionProductDto
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.storage.storage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.hours
 
-class FashionProductService @Inject constructor() {
-    suspend fun getProducts(): List<FashionProductDto> = TODO("Implement when server is ready")
+class FashionProductService @Inject constructor(
+    private val supabase: SupabaseClient
+) {
+    suspend fun getProducts(): List<FashionProductDto> =
+        withContext(Dispatchers.IO) {
+            supabase.from(FashionProductDto.tableName)
+                .select()
+                .decodeList<FashionProductDto>()
+                .map { product ->
+                    async {
+                        product.copy(
+                            imagePath = product.imagePath.pathToUrl(),
+                            thumbnailUrl = product.thumbnailUrl?.pathToUrl()
+                        )
+                    }
+                }
+                .awaitAll()
+        }
+
+    private suspend fun String.pathToUrl(): String =
+        supabase.storage.from(FashionProductDto.tableName)
+            .createSignedUrl(this, expiresIn = 1.hours)
 }
