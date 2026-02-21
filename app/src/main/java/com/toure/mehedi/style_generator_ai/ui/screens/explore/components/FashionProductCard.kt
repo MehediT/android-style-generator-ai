@@ -15,7 +15,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import coil3.compose.AsyncImage
-import com.toure.mehedi.style_generator_ai.ui.models.FashionCategory
 import com.toure.mehedi.style_generator_ai.ui.models.FashionProduct
 import com.toure.mehedi.style_generator_ai.ui.models.Gender
 import com.toure.mehedi.style_generator_ai.ui.theme.BorderRadius

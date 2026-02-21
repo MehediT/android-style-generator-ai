@@ -20,8 +20,6 @@ fun FashionProductDto.toDomain(): FashionProduct = FashionProduct(
     createdAt = createdAt
 )
 
-fun FashionProduct.toDto(): FashionProductDto = TODO("Map domain model to DTO")
-
 fun String?.toDomain(): Gender = when (this) {
     "men"  -> Gender.MEN
     "women" -> Gender.WOMEN

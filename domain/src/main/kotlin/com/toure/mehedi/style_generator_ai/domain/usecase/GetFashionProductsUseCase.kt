@@ -7,5 +7,7 @@ import javax.inject.Inject
 class GetFashionProductsUseCase @Inject constructor(
     private val repository: FashionProductRepository
 ) {
-    suspend operator fun invoke(): Result<List<FashionProduct>> = repository.getProducts()
+    suspend operator fun invoke(): Result<List<FashionProduct>> {
+        return repository.getProducts()
+    }
 }
