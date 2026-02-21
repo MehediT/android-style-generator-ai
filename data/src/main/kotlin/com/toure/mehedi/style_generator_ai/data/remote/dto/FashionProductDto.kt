@@ -20,6 +20,7 @@ data class FashionProductDto(
     @SerialName("created_at") val createdAt: Long = 0L
 ) {
     companion object {
-        val tableName = "fashion_product"
+        const val tableName = "fashion_product"
+        const val storageBucket = "fashion_product" // à adapter si le bucket a un nom différent
     }
 }

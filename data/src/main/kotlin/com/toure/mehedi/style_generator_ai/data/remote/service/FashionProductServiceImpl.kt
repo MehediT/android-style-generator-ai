@@ -22,14 +22,11 @@ class FashionProductService @Inject constructor(
                 .decodeList<FashionProductDto>()
                 .also { raw -> Log.d(TAG, "Raw DTOs from Supabase (${raw.size}): $raw") }
                 .map { product ->
-                    async {
-                        product.copy(
-                            imagePath = product.imagePath.pathToUrl(),
-                            thumbnailUrl = product.thumbnailUrl?.pathToUrl()
-                        )
-                    }
+                    product.copy(
+                        imagePath = product.imagePath.pathToUrl(),
+                        thumbnailUrl = product.thumbnailUrl?.pathToUrl()
+                    )
                 }
-                .awaitAll()
         }
 
     companion object {
@@ -37,6 +34,7 @@ class FashionProductService @Inject constructor(
     }
 
     private suspend fun String.pathToUrl(): String =
-        supabase.storage.from(FashionProductDto.tableName)
+        supabase.storage.from(FashionProductDto.storageBucket)
             .createSignedUrl(this, expiresIn = 1.hours)
+
 }
