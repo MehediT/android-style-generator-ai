@@ -12,24 +12,19 @@ android {
     defaultConfig {
         minSdk = 27
 
-        // Modern Gradle way (Providers API)
-        buildConfigField(
-            "String",
-            "SUPABASE_URL",
-            providers.gradleProperty("supabase.url")
-                .map { "\"$it\"" }
-                .orElse("\"\"")
-                .get()
-        )
+        fun buildStringConfig(name: String, property: String) {
+            buildConfigField(
+                "String",
+                name,
+                providers.gradleProperty(property)
+                    .map { "\"$it\"" }
+                    .orElse("\"\"")
+                    .get()
+            )
+        }
 
-        buildConfigField(
-            "String",
-            "SUPABASE_ANON_KEY",
-            providers.gradleProperty("supabase.anon_key")
-                .map { "\"$it\"" }
-                .orElse("\"\"")
-                .get()
-        )
+        buildStringConfig("SUPABASE_URL", "supabase.url")
+        buildStringConfig("SUPABASE_ANON_KEY", "supabase.anon_key")
     }
 
     buildFeatures {
