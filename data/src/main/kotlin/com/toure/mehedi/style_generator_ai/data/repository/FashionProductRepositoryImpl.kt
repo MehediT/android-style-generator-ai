@@ -12,10 +12,4 @@ class FashionProductRepositoryImpl @Inject constructor(
 ) : FashionProductRepository {
     override suspend fun getProducts(): Result<List<FashionProduct>> =
         runCatching { service.getProducts().map { it.toDomain() } }
-
-    override suspend fun getProductById(id: String): Result<FashionProduct> =
-        runCatching { service.getProductById(id).toDomain() }
-
-    override suspend fun getProductsByCategory(category: FashionCategory): Result<List<FashionProduct>> =
-        runCatching { service.getProductsByCategory(category.name).map { it.toDomain() } }
 }

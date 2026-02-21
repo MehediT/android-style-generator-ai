@@ -34,4 +34,9 @@ dependencies {
     // TODO: Add Retrofit when server is ready
     // implementation(libs.retrofit)
     // implementation(libs.retrofit.converter.gson)
+
+    implementation(platform(libs.bom))
+    implementation(libs.postgrest.kt)
+    implementation(libs.auth.kt)
+    implementation(libs.realtime.kt)
 }

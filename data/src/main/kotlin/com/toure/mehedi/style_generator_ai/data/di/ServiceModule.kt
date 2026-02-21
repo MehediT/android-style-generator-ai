@@ -12,10 +12,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataModule {
+abstract class ServiceModule {
     @Binds
     @Singleton
-    abstract fun bindFashionProductRepository(
+    abstract fun bindFashionProductService(
         impl: FashionProductRepositoryImpl
     ): FashionProductRepository
 
