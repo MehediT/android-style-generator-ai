@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.toure.mehedi.style_generator_ai.ui.screens.explore.ExploreScreen
+import com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail.FashionProductDetailScreen
 
 @Composable
 fun NavGraph(
@@ -19,6 +20,11 @@ fun NavGraph(
     ) {
         composable(route = Routes.Explore.route) {
             ExploreScreen(
+                paddingValues = paddingValues,
+            )
+        }
+        composable(route = Routes.FashionProductDetail.route) {
+            FashionProductDetailScreen(
                 paddingValues = paddingValues,
             )
         }
