@@ -21,6 +21,7 @@ fun NavGraph(
         composable(route = Routes.Explore.route) {
             ExploreScreen(
                 paddingValues = paddingValues,
+                onNavigateToProductDetail = { navController.navigate(Routes.FashionProductDetail.route) }
             )
         }
         composable(route = Routes.FashionProductDetail.route) {

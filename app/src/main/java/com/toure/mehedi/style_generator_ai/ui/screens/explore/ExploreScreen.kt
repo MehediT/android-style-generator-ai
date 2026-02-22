@@ -25,6 +25,7 @@ import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 fun ExploreScreen(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
+    onNavigateToProductDetail: () -> Unit = {},
     viewModel: ExploreViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -33,14 +34,16 @@ fun ExploreScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(paddingValues),
-        uiState = uiState
+        uiState = uiState,
+        onNavigateToProductDetail = onNavigateToProductDetail
     )
 }
 
 @Composable
 private fun ExploreContent(
     modifier: Modifier,
-    uiState: ExploreUiState
+    uiState: ExploreUiState,
+    onNavigateToProductDetail: () -> Unit = {},
 ) {
     // Crée une liste qui alterne produits et promotions
     val itemsWithPromotions: List<ExploreCard> = buildList {
@@ -78,7 +81,10 @@ private fun ExploreContent(
                     )
                 }
                 is FashionProduct -> {
-                    FashionProductCard(product = item)
+                    FashionProductCard(
+                        product = item,
+                        onClick = { onNavigateToProductDetail() }
+                    )
                 }
             }
         }
