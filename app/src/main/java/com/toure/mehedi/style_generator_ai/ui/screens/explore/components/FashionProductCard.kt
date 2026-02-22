@@ -95,7 +95,7 @@ fun FashionProductTitle(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.labelSmall,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
@@ -118,8 +118,8 @@ private fun FashionProductCardPrev() {
                     name = "Classic Black T-Shirt",
                     description = "Timeless black t-shirt perfect for any casual outfit",
                     category = "CLOTHING",
-                    imageUrl = "https://images.unsplash.com/photo-1594568284297-7c64464062b1?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    aspectRatio = 16/9f,
+                    imageUrl = "https://picsum.photos/seed/picsum/200/300",
+                    aspectRatio = 2/3f,
                     tags = listOf("casual", "basic", "black", "unisex"),
                     gender = Gender.UNISEX,
                     style = "Casual",
