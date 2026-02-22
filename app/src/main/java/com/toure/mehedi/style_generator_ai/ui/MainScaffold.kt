@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.toure.mehedi.style_generator_ai.navigation.Routes
+import com.toure.mehedi.style_generator_ai.ui.components.topbars.FashionProductDetailTopBar
 import com.toure.mehedi.style_generator_ai.ui.components.topbars.HomeTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,6 +24,9 @@ fun MainScaffold(
         topBar = {
             when (currentRoute) {
                 Routes.Explore.route -> HomeTopBar()
+                Routes.FashionProductDetail.route -> FashionProductDetailTopBar(
+                    onNavigateBack = { navController.navigateUp() }
+                )
             }
         }
     ) { paddingValues ->
