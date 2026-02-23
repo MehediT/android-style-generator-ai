@@ -36,11 +36,11 @@ fun FashionProductDetailInfo(
             style = MaterialTheme.typography.headlineMedium
         )
 
-        FashionProductMetaChips(
-            category = category,
-            style = style,
-            gender = gender
-        )
+//        FashionProductMetaChips(
+//            category = category,
+//            style = style,
+//            gender = gender
+//        )
 
         Text(
             text = description,
