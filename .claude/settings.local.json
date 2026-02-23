@@ -5,7 +5,8 @@
       "Bash(./gradlew assembleDebug:*)",
       "Bash(git add:*)",
       "Bash(git branch:*)",
-      "Bash(./gradlew lint:*)"
+      "Bash(./gradlew lint:*)",
+      "mcp__ide__getDiagnostics"
     ]
   }
 }
