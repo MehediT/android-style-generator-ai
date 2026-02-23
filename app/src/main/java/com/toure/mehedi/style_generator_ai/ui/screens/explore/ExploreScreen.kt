@@ -35,7 +35,10 @@ fun ExploreScreen(
             .fillMaxSize()
             .padding(paddingValues),
         uiState = uiState,
-        onNavigateToProductDetail = onNavigateToProductDetail
+        onNavigateToProductDetail = { product ->
+            viewModel.selectProduct(product)
+            onNavigateToProductDetail()
+        }
     )
 }
 
@@ -43,7 +46,7 @@ fun ExploreScreen(
 private fun ExploreContent(
     modifier: Modifier,
     uiState: ExploreUiState,
-    onNavigateToProductDetail: () -> Unit = {},
+    onNavigateToProductDetail: (FashionProduct) -> Unit = {},
 ) {
     // Crée une liste qui alterne produits et promotions
     val itemsWithPromotions: List<ExploreCard> = buildList {
@@ -83,7 +86,7 @@ private fun ExploreContent(
                 is FashionProduct -> {
                     FashionProductCard(
                         product = item,
-                        onClick = { onNavigateToProductDetail() }
+                        onClick = { onNavigateToProductDetail(item) }
                     )
                 }
             }
