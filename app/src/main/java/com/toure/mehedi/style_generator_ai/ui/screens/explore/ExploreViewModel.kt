@@ -16,7 +16,8 @@ import javax.inject.Inject
 data class ExploreUiState(
     val products: List<FashionProduct> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val selectedProduct: FashionProduct? = null
 )
 
 @HiltViewModel
@@ -29,6 +30,10 @@ class ExploreViewModel @Inject constructor(
 
     init {
         loadProducts()
+    }
+
+    fun selectProduct(product: FashionProduct) {
+        _uiState.update { it.copy(selectedProduct = product) }
     }
 
     private fun loadProducts() {

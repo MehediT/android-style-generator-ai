@@ -4,4 +4,10 @@
     <string name="for_you">For you</string>
     <string name="trending">Trending</string>
     <string name="new_arrivals">New Arrivals</string>
+    <string name="navigate_back">Navigate back</string>
+    <string name="share">Share</string>
+    <string name="save">Save</string>
+    <string name="more_options">More options</string>
+    <string name="premium">Premium</string>
+    <string name="test_on_me">Test on me</string>
 </resources>
