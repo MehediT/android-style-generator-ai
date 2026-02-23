@@ -17,11 +17,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Android Style Generator AI** is a Jetpack Compose Android application that provides tools for design system management and style generation. The app uses:
+**Android Style Generator AI** is a Jetpack Compose Android application for fashion product browsing with AI-powered try-on. The app uses:
 - **Jetpack Compose** for UI
 - **Hilt** for dependency injection
 - **Navigation Compose** for screen routing
-- **MVVM pattern** with ViewModels for state management
+- **MVVM pattern** with ViewModels and `StateFlow`
+- **Coil 3** for async image loading
+- **Supabase** as the backend
 
 ## Build & Run Commands
 
@@ -49,57 +51,97 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./gradlew lint                  # Run Android linter
 ```
 
+## Module Structure
+
+The project is split into three Gradle modules:
+
+```
+androidstylegeneratorai/
+├── app/          # UI layer — Compose screens, ViewModels, theme, navigation
+├── domain/       # Pure Kotlin — business models, repository interfaces, use cases
+└── data/         # Implementation layer — API, DTOs, repository impls, DI modules
+```
+
+- `domain` has no Android dependencies; `data` depends on `domain`; `app` depends on both.
+- Hilt DI modules live in `data/src/main/kotlin/.../di/` (`ClientModule`, `RepositoryModule`).
+- Supabase config: `data/.../config/SupabaseAppConfig.kt`.
+
 ## Architecture & Code Structure
 
-### Project Layout
+### App Module Layout
 ```
 app/src/main/java/com/toure/mehedi/style_generator_ai/
-├── MainActivity.kt              # Entry point, sets up theme and navigation
-├── StyleGeneratorApplication.kt # Application class with Hilt setup
+├── MainActivity.kt
+├── StyleGeneratorApplication.kt
 ├── navigation/
-│   ├── Routes.kt               # Sealed class defining all screen routes
-│   └── NavGraph.kt             # Navigation composition with all routes
+│   ├── Routes.kt               # Sealed class with all routes
+│   └── NavGraph.kt             # Navigation composition
 ├── ui/
-│   ├── MainScaffold.kt         # Root scaffold with dynamic top bar
+│   ├── MainScaffold.kt         # Root scaffold with dynamic top bar selection
+│   ├── models/                 # UI-layer data models
+│   │   ├── FashionProduct.kt
+│   │   ├── ExploreCard.kt      # Interface implemented by FashionProduct & PromotionCard
+│   │   ├── Gender.kt
+│   │   └── FashionProductMapper.kt  # domain → UI model mapping
 │   ├── screens/
-│   │   ├── home/               # Home screen (main entry point)
-│   │   │   ├── HomeScreen.kt
-│   │   │   ├── HomeViewModel.kt
-│   │   │   └── components/     # Home-specific sub-components
-│   │   ├── designsystem/       # Design system showcase
-│   │   ├── stylegenerator/     # Style generator tool
-│   │   └── settings/           # Settings screen
+│   │   ├── explore/            # Fashion product browsing (staggered grid)
+│   │   │   ├── ExploreScreen.kt
+│   │   │   ├── ExploreViewModel.kt
+│   │   │   └── components/
+│   │   │       ├── FashionProductCard.kt
+│   │   │       ├── FashionProductTitle.kt
+│   │   │       └── PromotedContent.kt
+│   │   ├── fashionproductdetail/
+│   │   │   ├── FashionProductDetailScreen.kt
+│   │   │   └── components/
+│   │   │       ├── FashionProductDetailImage.kt
+│   │   │       ├── FashionProductDetailInfo.kt
+│   │   │       ├── FashionProductTags.kt
+│   │   │       ├── FashionProductPremiumBadge.kt
+│   │   │       └── FashionProductMetaChips.kt
+│   │   ├── designsystem/
+│   │   ├── stylegenerator/
+│   │   └── settings/
 │   ├── components/
-│   │   ├── Button.kt           # Reusable components
-│   │   └── topbars/            # Screen-specific top app bars
-│   ├── theme/                  # Centralized design system
-│   │   ├── Color.kt            # All color definitions
-│   │   ├── Dimension.kt        # Spacing and border radius system
-│   │   ├── Elevation.kt        # Shadow/elevation values
-│   │   ├── Type.kt             # Typography (fonts, sizes, styles)
-│   │   └── Theme.kt            # Material3 theme composition
-│   └── showcase/               # Design system showcase/demo
+│   │   ├── ShimmerCard.kt      # Animated shimmer loading placeholder
+│   │   └── topbars/
+│   │       ├── HomeTopBar.kt   # Search/notification badges + destination chips
+│   │       ├── FashionProductDetailTopBar.kt
+│   │       ├── SearchBadge.kt
+│   │       ├── NotificationBadge.kt
+│   │       └── DestinationChip.kt
+│   └── theme/
+│       ├── Color.kt
+│       ├── Dimension.kt
+│       ├── Elevation.kt
+│       ├── Type.kt
+│       └── Theme.kt
 ```
 
 ### Navigation Flow
 Routes are defined in `Routes.kt` as sealed classes:
-- **Home** - Main screen (entry point)
-- **DesignSystem** - Design system showcase
-- **StyleGenerator** - Style generator tool
-- **Settings** - App settings
+- **Explore** - Main fashion product browsing screen (entry point)
+- **Recommendations** - "For You" recommendations screen
+- **FashionProductDetail** - Product detail with "Test on me" button
 
-Navigation is handled in `NavGraph.kt`. Each screen receives `paddingValues` from the `MainScaffold` Scaffold to avoid content overlap with the top bar.
+`NavGraph.kt` shares the `ExploreViewModel` instance between `Explore` and `FashionProductDetail` screens so the selected product is available on the detail screen without navigation arguments.
 
 ### Screen Pattern (MVVM)
 Each screen follows this pattern:
-1. **Screen Composable** (`*Screen.kt`) - UI composition, receives callbacks for navigation
-2. **ViewModel** (`*ViewModel.kt`) - State management and business logic
+1. **Screen Composable** (`*Screen.kt`) - UI, receives callbacks for navigation
+2. **ViewModel** (`*ViewModel.kt`) - `StateFlow<UiState>` for state management
 3. **Sub-components** (`components/`) - Screen-specific reusable components
 
-Example: `HomeScreen.kt` + `HomeViewModel.kt`
-
 ### Top Bar Pattern
-Each screen-specific top bar is in `components/topbars/`. The `MainScaffold` uses navigation state to dynamically select the appropriate top bar. Screens requiring back navigation pass `onNavigateBack` callback to their top bar.
+Each screen-specific top bar is in `components/topbars/`. `MainScaffold` dynamically selects the top bar by current route. Screens requiring back navigation pass `onNavigateBack` to their top bar.
+
+### Cross-Screen State Sharing
+When two screens share data (e.g., selected product from Explore → Detail), use a shared ViewModel instance retrieved from the back-stack entry rather than navigation arguments:
+```kotlin
+// In NavGraph.kt
+val backStackEntry = remember(navEntry) { navController.getBackStackEntry(Routes.Explore.route) }
+val sharedVm: ExploreViewModel = hiltViewModel(backStackEntry)
+```
 
 ## Design System & Theme
 
@@ -109,19 +151,19 @@ Each screen-specific top bar is in `components/topbars/`. The `MainScaffold` use
 - **Neutral**: `LightGray`, `MediumGray`, `PureWhite`
 - **Status**: `Success`, `Warning`, `Error`, `Info`
 - **Overlays**: `OverlayDark`, `OverlayLight`
+- **Dark mode**: `DarkBackground`, `DarkSurface`, `DarkSurfaceElevated`, `DarkSurfaceVariant`, `DarkOnSurface`, `DarkOnSurfaceVariant`, `DarkOutline`, `DarkOutlineVariant`
 
 ### Dimensions (`ui/theme/Dimension.kt`)
 **Spacing system** (8px scale):
 - `xxs = 4.dp`, `xs = 8.dp`, `s = 12.dp`, `m = 16.dp`, `l = 24.dp`, `xl = 32.dp`, `xxl = 48.dp`, `xxxl = 64.dp`
 
 **Border Radius**:
-- `small = 4.dp`, `medium = 8.dp`, `large = 12.dp`, `xLarge = 16.dp`, `round = 50%`
+- `tiny = 4.dp`, `small = 6.dp`, `medium = 8.dp`, `large = 12.dp`, `xLarge = 16.dp`, `round = 50%`
 
 Usage:
 ```kotlin
 Modifier.padding(Spacing.m)
 Modifier.clip(RoundedCornerShape(BorderRadius.medium.dp))
-Box(backgroundColor = PinterestRed)
 ```
 
 ## Key Development Patterns
@@ -133,55 +175,48 @@ Box(backgroundColor = PinterestRed)
 4. Add top bar entry to `MainScaffold.kt` if needed
 5. Create `components/topbars/MyScreenTopBar.kt` if the screen has a custom top bar
 
+### Async Image Loading (Coil 3)
+```kotlin
+AsyncImage(
+    model = imageUrl,
+    contentDescription = null,
+    onLoading = { /* show shimmer */ },
+    onSuccess = { /* hide shimmer */ },
+    onError = { /* handle error */ }
+)
+```
+
+### Shimmer Loading Placeholder
+Use `ShimmerCard` (`ui/components/ShimmerCard.kt`) for loading states. It is a custom animated shimmer that replaces the deprecated accompanist-placeholder library.
+
+### Staggered Grid Layout
+`ExploreScreen` uses `LazyVerticalStaggeredGrid` for a Pinterest-style layout. Promotion cards are injected every 3rd item by inserting `PromotionCard` instances into the `ExploreCard` list.
+
 ### Using Strings (No Hardcoding)
 Add strings to `app/src/main/res/values/strings.xml`:
 ```xml
 <string name="my_string">My String Value</string>
 ```
-
-Access in code:
 ```kotlin
 stringResource(id = R.string.my_string)
 ```
 
-### Using Dimensions & Colors
-```kotlin
-// Colors
-Text(color = PinterestRed)
-Surface(color = BackgroundWhite)
-
-// Spacing
-Spacer(modifier = Modifier.height(Spacing.m))
-Box(modifier = Modifier.padding(Spacing.l))
-
-// Border radius
-Card(shape = RoundedCornerShape(BorderRadius.medium.dp))
-```
-
 ### Dependency Injection with Hilt
-The app uses Hilt for DI. The `@HiltViewModel` annotation on ViewModels enables automatic injection:
 ```kotlin
 @HiltViewModel
 class MyViewModel @Inject constructor(
-    // dependencies here
+    private val useCase: MyUseCase
 ) : ViewModel() {}
 ```
+Apply `@AndroidEntryPoint` to Activities (already on `MainActivity`). DI modules for data sources live in `data/.../di/`.
 
-Apply `@AndroidEntryPoint` to Activities (already on `MainActivity`).
-
-## Testing
-
-### Unit Tests
-Unit tests go in `app/src/test/` and test business logic without Android framework:
-```bash
-./gradlew test
-```
-
-### Instrumented Tests
-Instrumented tests (on device/emulator) go in `app/src/androidTest/` and can test Android-specific behavior:
-```bash
-./gradlew connectedAndroidTest
-```
+### Adding a Use Case / Repository
+1. Define model in `domain/.../model/`
+2. Define repository interface in `domain/.../repository/`
+3. Create use case in `domain/.../usecase/`
+4. Implement repository in `data/.../repository/`
+5. Bind implementation in `data/.../di/RepositoryModule.kt`
+6. Map domain → UI model in `app/.../ui/models/`
 
 ## Build Configuration
 
@@ -189,12 +224,5 @@ Instrumented tests (on device/emulator) go in `app/src/androidTest/` and can tes
 - **Min SDK**: 27 (Android 8.1)
 - **Java/Kotlin Target**: 11
 - **Compose**: Enabled
-- **Hilt**: Enabled
-- **KSP**: Enabled (for Hilt annotation processing)
-
-Key plugins in `build.gradle.kts`:
-- `android.application`
-- `kotlin.android`
-- `kotlin.compose`
-- `hilt.android`
-- `ksp` (Kotlin Symbol Processing)
+- **Hilt + KSP**: Enabled
+- **Key dependencies**: Coil 3 (`coil.compose`, `coil.network.okhttp`), Material Icons Extended, Accompanist Permissions

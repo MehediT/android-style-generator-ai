@@ -1,5 +1,7 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,11 +18,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.toure.mehedi.style_generator_ai.R
 import com.toure.mehedi.style_generator_ai.ui.models.FashionProduct
 import com.toure.mehedi.style_generator_ai.ui.models.sampleFashionProducts
@@ -31,8 +36,16 @@ import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 fun FashionProductDetailScreen(
     paddingValues: PaddingValues,
     product: FashionProduct?,
+    viewModel: FashionProductDetailViewModel = hiltViewModel()
 ) {
     if (product == null) return
+
+    val uiState by viewModel.uiState.collectAsState()
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let { viewModel.onImageSelected(it, product.id) }
+    }
 
     Box(
         modifier = Modifier
@@ -70,7 +83,8 @@ fun FashionProductDetailScreen(
         }
 
         Button(
-            onClick = {},
+            onClick = { imagePicker.launch("image/*") },
+            enabled = !uiState.isLoading,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = Spacing.l)
