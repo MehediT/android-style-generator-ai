@@ -23,35 +23,7 @@ fun FashionProductDetailInfo(
     tags: List<String>,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.padding(Spacing.m),
-        verticalArrangement = Arrangement.spacedBy(Spacing.s)
-    ) {
-        if (isPremium) {
-            FashionProductPremiumBadge()
-        }
 
-        Text(
-            text = name,
-            style = MaterialTheme.typography.headlineMedium
-        )
-
-//        FashionProductMetaChips(
-//            category = category,
-//            style = style,
-//            gender = gender
-//        )
-
-        Text(
-            text = description,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        if (tags.isNotEmpty()) {
-            FashionProductTags(tags = tags)
-        }
-    }
 }
 
 @Preview(showBackground = true)

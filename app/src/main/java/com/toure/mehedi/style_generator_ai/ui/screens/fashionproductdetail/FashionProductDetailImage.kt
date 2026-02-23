@@ -24,7 +24,6 @@ fun FashionProductDetailImage(
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .fillMaxWidth()
             .aspectRatio(aspectRatio)
             .clip(RoundedCornerShape(BorderRadius.xLarge))
     )
