@@ -7,14 +7,15 @@ data class ReplicatePredictionRequestDto(
 )
 
 data class ReplicateInputDto(
-    @SerializedName("human_img") val humanImg: String,
-    @SerializedName("garm_img") val garmImg: String,
-    val prompt: String
+    val prompt: String,
+    @SerializedName("image_input") val imageInput: List<String>,
+    @SerializedName("output_format") val outputFormat: String = "jpg"
 )
 
 data class ReplicatePredictionResponseDto(
     val id: String,
     val status: String,
-    val output: List<String>? = null,
-    val error: String? = null
+    val output: String? = null,
+    val error: String? = null,
+    val logs: String? = null
 )

@@ -17,34 +17,46 @@ class ReplicateService @Inject constructor(
         garmentImageUrl: String,
         prompt: String
     ): String = withContext(Dispatchers.IO) {
-        Log.d(TAG, "Creating prediction — humanImg=$humanImageUrl, garmImg=$garmentImageUrl")
+        Log.d(TAG, "Creating prediction — images=$humanImageUrl, $garmentImageUrl")
 
         val prediction = api.createPrediction(
-            ReplicatePredictionRequestDto(
+            prefer = "wait",
+            body = ReplicatePredictionRequestDto(
                 input = ReplicateInputDto(
-                    humanImg = humanImageUrl,
-                    garmImg = garmentImageUrl,
-                    prompt = prompt
+                    prompt = prompt,
+                    imageInput = listOf(humanImageUrl, garmentImageUrl)
                 )
             )
         )
 
-        Log.d(TAG, "Prediction created: id=${prediction.id}")
-        pollUntilComplete(prediction.id)
+        Log.d(TAG, "Prediction id=${prediction.id} status=${prediction.status}")
+
+        when (prediction.status) {
+            "succeeded" -> prediction.output
+                ?: error("Prediction succeeded but output is empty")
+            "failed", "canceled" -> {
+                Log.e(TAG, "Prediction ${prediction.id} failed — error=${prediction.error} logs=${prediction.logs}")
+                error("Prediction failed: ${prediction.error}")
+            }
+            else -> pollUntilComplete(prediction.id)
+        }
     }
 
     private suspend fun pollUntilComplete(predictionId: String): String {
         while (true) {
             val prediction = api.getPrediction(predictionId)
-            Log.d(TAG, "Polling prediction $predictionId — status=${prediction.status}")
+            Log.d(TAG, "Polling $predictionId — status=${prediction.status}")
             when (prediction.status) {
                 "succeeded" -> {
-                    val url = prediction.output?.firstOrNull()
+                    val url = prediction.output
                         ?: error("Prediction succeeded but output is empty")
                     Log.d(TAG, "Prediction succeeded: $url")
                     return url
                 }
-                "failed", "canceled" -> error("Prediction failed: ${prediction.error}")
+                "failed", "canceled" -> {
+                    Log.e(TAG, "Prediction ${prediction.id} failed — error=${prediction.error} logs=${prediction.logs}")
+                    error("Prediction failed: ${prediction.error}")
+                }
                 else -> delay(POLL_INTERVAL_MS)
             }
         }
