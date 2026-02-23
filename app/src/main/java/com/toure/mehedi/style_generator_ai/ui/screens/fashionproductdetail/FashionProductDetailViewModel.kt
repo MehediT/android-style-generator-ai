@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.model.ImageData
-import com.toure.mehedi.style_generator_ai.domain.usecase.UploadImageUseCase
+import com.toure.mehedi.style_generator_ai.domain.usecase.GenerateImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,7 @@ data class FashionProductDetailUiState(
 
 @HiltViewModel
 class FashionProductDetailViewModel @Inject constructor(
-    private val uploadImageUseCase: UploadImageUseCase,
+    private val uploadImageUseCase: GenerateImageUseCase,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
