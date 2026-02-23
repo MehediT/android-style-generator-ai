@@ -44,7 +44,7 @@ fun FashionProductDetailScreen(
     val imagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
-        uri?.let { viewModel.onImageSelected(it, product.id) }
+        uri?.let { viewModel.onImageSelected(it) }
     }
 
     Box(

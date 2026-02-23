@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.model.ImageData
-import com.toure.mehedi.style_generator_ai.domain.usecase.TryOnUseCase
+import com.toure.mehedi.style_generator_ai.domain.usecase.UploadImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,26 +18,26 @@ import javax.inject.Inject
 data class FashionProductDetailUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
-    val resultImageUrl: String? = null
+    val uploadedImageUrl: String? = null
 )
 
 @HiltViewModel
 class FashionProductDetailViewModel @Inject constructor(
-    private val tryOnUseCase: TryOnUseCase,
+    private val uploadImageUseCase: UploadImageUseCase,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FashionProductDetailUiState())
     val uiState: StateFlow<FashionProductDetailUiState> = _uiState.asStateFlow()
 
-    fun onImageSelected(uri: Uri, productId: String) {
+    fun onImageSelected(uri: Uri) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             val bytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
                 ?: byteArrayOf()
-            tryOnUseCase(ImageData(bytes), productId)
-                .onSuccess { result ->
-                    _uiState.update { it.copy(isLoading = false, resultImageUrl = result.resultImageUrl) }
+            uploadImageUseCase(ImageData(bytes))
+                .onSuccess { url ->
+                    _uiState.update { it.copy(isLoading = false, uploadedImageUrl = url) }
                 }
                 .onFailure { error ->
                     _uiState.update { it.copy(isLoading = false, error = error.message) }

@@ -10,15 +10,17 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import javax.inject.Inject
 
-class TryOnServiceApi @Inject constructor() {
+class ImageUploadService @Inject constructor() {
 
     private val httpClient = HttpClient(Android)
 
-    suspend fun tryOn(imageBytes: ByteArray, productId: String): String {
-        Log.d(TAG, "Uploading image for product $productId (${imageBytes.size} bytes)")
+    suspend fun uploadImage(imageBytes: ByteArray): String = withContext(Dispatchers.IO) {
+        Log.d(TAG, "Uploading image (${imageBytes.size} bytes)")
 
         val responseText = httpClient.post(UPLOAD_URL) {
             setBody(
@@ -43,11 +45,11 @@ class TryOnServiceApi @Inject constructor() {
             .replace("tmpfiles.org/", "tmpfiles.org/dl/")
 
         Log.d(TAG, "Uploaded image URL: $url")
-        return url
+        url
     }
 
     companion object {
-        private const val TAG = "TryOnServiceApi"
+        private const val TAG = "ImageUploadService"
         private const val UPLOAD_URL = "https://tmpfiles.org/api/v1/upload"
     }
 }
