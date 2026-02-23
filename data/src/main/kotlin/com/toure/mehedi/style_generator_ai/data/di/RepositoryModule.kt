@@ -5,7 +5,11 @@ import com.toure.mehedi.style_generator_ai.data.repository.FashionProductReposit
 import com.toure.mehedi.style_generator_ai.data.repository.StorageRepository
 import com.toure.mehedi.style_generator_ai.data.repository.StorageRepositoryImpl
 import com.toure.mehedi.style_generator_ai.domain.repository.AuthRepository
+import com.toure.mehedi.style_generator_ai.data.repository.GenerateImageRepositoryImpl
+import com.toure.mehedi.style_generator_ai.data.repository.ImageUploadRepositoryImpl
 import com.toure.mehedi.style_generator_ai.domain.repository.FashionProductRepository
+import com.toure.mehedi.style_generator_ai.domain.repository.GenerateImageRepository
+import com.toure.mehedi.style_generator_ai.domain.repository.ImageUploadRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -20,6 +24,18 @@ abstract class RepositoryModule {
     abstract fun bindFashionProductRepository(
         impl: FashionProductRepositoryImpl
     ): FashionProductRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindGenerateImageRepository(
+        impl: GenerateImageRepositoryImpl
+    ): GenerateImageRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindImageUploadRepository(
+        impl: ImageUploadRepositoryImpl
+    ): ImageUploadRepository
 
     @Binds
     @Singleton

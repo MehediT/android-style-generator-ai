@@ -29,6 +29,7 @@ android {
 
         buildStringConfig("SUPABASE_URL", "supabase.url")
         buildStringConfig("SUPABASE_ANON_KEY", "supabase.anon_key")
+        buildStringConfig("REPLICATE_API_TOKEN", "replicate.api.token")
     }
 
     buildFeatures {
@@ -58,4 +59,7 @@ dependencies {
     implementation(libs.storage.kt)
     implementation(libs.ktor.client.android)
 
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging.interceptor)
 }
