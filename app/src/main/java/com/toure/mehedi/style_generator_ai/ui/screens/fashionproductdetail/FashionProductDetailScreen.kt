@@ -3,8 +3,10 @@ package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -46,12 +48,12 @@ fun FashionProductDetailScreen(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
         )
+        Spacer(Modifier.height(Spacing.xs))
         Text(
             text = product.description,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-
         if (product.tags.isNotEmpty()) {
             FashionProductTags(tags = product.tags)
         }
