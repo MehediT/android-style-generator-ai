@@ -13,16 +13,21 @@ class FashionProductService @Inject constructor(
 ) {
     suspend fun getProducts(): List<FashionProductDto> =
         withContext(Dispatchers.IO) {
-            tableService.getFashionProductsTable()
-                .select()
-                .decodeList<FashionProductDto>()
-                .also { raw -> Log.d(TAG, "Raw DTOs from Supabase (${raw.size}): $raw") }
-                .map { product ->
+            try {
+                val result = tableService.getFashionProductsTable()
+                    .select()
+                    .decodeList<FashionProductDto>()
+                Log.d(TAG, "Raw DTOs from Supabase (${result.size}): $result")
+                result.map { product ->
                     product.copy(
                         imagePath = product.imagePath.pathToUrl(),
-                        thumbnailUrl = product.thumbnailUrl?.pathToUrl()
+                        thumbnailPath = product.thumbnailPath?.pathToUrl()
                     )
                 }
+            } catch (e: Exception) {
+                Log.e(TAG, "Erreur decodeList: ${e::class.simpleName} - ${e.message}", e)
+                emptyList()
+            }
         }
 
     companion object {
