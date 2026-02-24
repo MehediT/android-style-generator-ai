@@ -13,4 +13,9 @@ class AuthRepositoryImpl @Inject constructor(
             supabaseClient.auth.signInAnonymously()
         }
     }
+
+    override suspend fun getCurrentUserId(): Result<String> = runCatching {
+        supabaseClient.auth.currentSessionOrNull()?.user?.id
+            ?: error("No active session")
+    }
 }

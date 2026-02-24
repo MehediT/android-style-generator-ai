@@ -12,15 +12,10 @@ data class FashionProductDto(
     @SerialName("negative_prompt") val negativePrompt: String? = null,
     @SerialName("image_path") val imagePath: String,
     @SerialName("aspect_ratio") val aspectRatio: Float,
-    @SerialName("thumbnail_url") val thumbnailUrl: String? = null,
+    @SerialName("thumbnail_path") val thumbnailPath: String? = null,
     val tags: List<String> = emptyList(),
     val gender: String? = null,
     val style: String? = null,
     @SerialName("is_premium") val isPremium: Boolean = false,
     @SerialName("created_at") val createdAt: Long = 0L
-) {
-    companion object {
-        const val tableName = "fashion_product"
-        const val storageBucket = "fashion_product" // à adapter si le bucket a un nom différent
-    }
-}
+)

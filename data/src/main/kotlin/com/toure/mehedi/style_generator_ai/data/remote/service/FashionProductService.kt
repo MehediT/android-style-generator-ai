@@ -2,31 +2,32 @@ package com.toure.mehedi.style_generator_ai.data.remote.service
 
 import android.util.Log
 import com.toure.mehedi.style_generator_ai.data.remote.dto.FashionProductDto
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.postgrest.from
-import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.hours
 
 class FashionProductService @Inject constructor(
-    private val supabase: SupabaseClient
+    private val tableService: TableSupabaseService,
+    private val storageService: StorageSupabaseService
 ) {
     suspend fun getProducts(): List<FashionProductDto> =
         withContext(Dispatchers.IO) {
-            supabase.from(FashionProductDto.tableName)
-                .select()
-                .decodeList<FashionProductDto>()
-                .also { raw -> Log.d(TAG, "Raw DTOs from Supabase (${raw.size}): $raw") }
-                .map { product ->
+            try {
+                val result = tableService.getFashionProductsTable()
+                    .select()
+                    .decodeList<FashionProductDto>()
+                Log.d(TAG, "Raw DTOs from Supabase (${result.size}): $result")
+                result.map { product ->
                     product.copy(
                         imagePath = product.imagePath.pathToUrl(),
-                        thumbnailUrl = product.thumbnailUrl?.pathToUrl()
+                        thumbnailPath = product.thumbnailPath?.pathToUrl()
                     )
                 }
+            } catch (e: Exception) {
+                Log.e(TAG, "Erreur decodeList: ${e::class.simpleName} - ${e.message}", e)
+                emptyList()
+            }
         }
 
     companion object {
@@ -34,7 +35,5 @@ class FashionProductService @Inject constructor(
     }
 
     private suspend fun String.pathToUrl(): String =
-        supabase.storage.from(FashionProductDto.storageBucket)
-            .createSignedUrl(this, expiresIn = 1.hours)
-
+        storageService.getImagesBucket().createSignedUrl(this, expiresIn = 1.hours)
 }

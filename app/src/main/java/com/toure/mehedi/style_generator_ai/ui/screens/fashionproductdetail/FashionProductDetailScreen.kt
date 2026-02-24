@@ -1,5 +1,8 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
 
+import android.content.Context
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,11 +19,16 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.toure.mehedi.style_generator_ai.R
 import com.toure.mehedi.style_generator_ai.ui.models.FashionProduct
 import com.toure.mehedi.style_generator_ai.ui.models.sampleFashionProducts
@@ -31,8 +39,36 @@ import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 fun FashionProductDetailScreen(
     paddingValues: PaddingValues,
     product: FashionProduct?,
+    onNavigateToGeneratedImage: () -> Unit = {},
+    viewModel: FashionProductDetailViewModel = hiltViewModel(),
+    context: Context = LocalContext.current
 ) {
     if (product == null) return
+
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(uiState.generatedImageUrl) {
+        if (uiState.generatedImageUrl != null) {
+            onNavigateToGeneratedImage()
+        }
+    }
+
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let {
+            val bytes = context.contentResolver
+                .openInputStream(uri)
+                ?.readBytes() ?: byteArrayOf()
+
+            viewModel.onImageSelected(
+                bytes = bytes,
+                articleUrl = product.imageUrl,
+                prompt = product.negativePrompt.orEmpty(),
+                userPhotoUri = uri.toString(),
+            )
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -70,7 +106,8 @@ fun FashionProductDetailScreen(
         }
 
         Button(
-            onClick = {},
+            onClick = { imagePicker.launch("image/*") },
+            enabled = !uiState.isLoading,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = Spacing.l)

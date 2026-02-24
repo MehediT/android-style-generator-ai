@@ -6,19 +6,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.toure.mehedi.style_generator_ai.ui.models.ExploreCard
 import com.toure.mehedi.style_generator_ai.ui.models.FashionProduct
+import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.FashionProductCard
 import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.PromotionAction
 import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.PromotionCard
 import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.PromotionCardComposable
-import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.FashionProductCard
 import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
 @Composable
