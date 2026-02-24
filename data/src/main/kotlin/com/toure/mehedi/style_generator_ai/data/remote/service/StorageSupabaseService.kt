@@ -1,15 +1,15 @@
-package com.toure.mehedi.style_generator_ai.data.repository
+package com.toure.mehedi.style_generator_ai.data.remote.service
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.storage.BucketApi
 import io.github.jan.supabase.storage.storage
 import javax.inject.Inject
 
-class StorageRepositoryImpl @Inject constructor(
+class StorageSupabaseService @Inject constructor(
     private val supabaseClient: SupabaseClient
-) : StorageRepository {
+) {
 
-    override fun getUserUploadsBucket(): BucketApi =
+    fun getUserUploadsBucket(): BucketApi =
         supabaseClient.storage.from(BUCKET_NAME)
 
     companion object {
