@@ -20,25 +20,17 @@ class AppViewModel @Inject constructor(
     private val _authState = MutableStateFlow<AuthState>(AuthState.Loading)
     val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
-    init {
-        ensureSession()
-    }
-
     fun ensureSession() {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
             runCatching { ensureAnonymousAuth() }
-                .onSuccess {
-                    Log.d(TAG, "ensureSession: success (Authenticated)")
-                    _authState.value = AuthState.Authenticated
-                }
-                .onFailure {
-                    Log.d(TAG, "ensureSession: failure (Unknown error)")
-                    _authState.value = AuthState.Error(it.message ?: "Unknown error")
-                }
+                .onSuccess { _authState.value = AuthState.Authenticated }
+                .onFailure { _authState.value = AuthState.Error(it.message ?: "Unknown error") }
+            Log.d(TAG, "ensureSession: ${_authState.value}")
         }
     }
+
     companion object {
-        const val  TAG = "AppViewModel"
+        private const val TAG = "AppViewModel"
     }
 }
