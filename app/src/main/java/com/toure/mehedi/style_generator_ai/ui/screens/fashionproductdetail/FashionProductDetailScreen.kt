@@ -1,5 +1,6 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
 
+import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,7 +38,8 @@ import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 fun FashionProductDetailScreen(
     paddingValues: PaddingValues,
     product: FashionProduct?,
-    viewModel: FashionProductDetailViewModel = hiltViewModel()
+    viewModel: FashionProductDetailViewModel = hiltViewModel(),
+    context: Context = LocalContext.current
 ) {
     if (product == null) return
 
@@ -44,7 +47,17 @@ fun FashionProductDetailScreen(
     val imagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
-        uri?.let { viewModel.onImageSelected(it) }
+        uri?.let {
+            val bytes = context.contentResolver
+                .openInputStream(uri)
+                ?.readBytes() ?: byteArrayOf()
+
+            viewModel.onImageSelected(
+                bytes = bytes,
+                articleUrl = product.imageUrl,
+                prompt = product.negativePrompt.orEmpty()
+            )
+        }
     }
 
     Box(
