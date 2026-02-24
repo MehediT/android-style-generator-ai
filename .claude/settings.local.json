@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew clean build:*)",
+      "Bash(./gradlew assembleDebug:*)",
+      "Bash(git add:*)",
+      "Bash(git branch:*)",
+      "Bash(./gradlew lint:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(git -C /Users/mehedi.toureweblib.eu/Github/androidstylegeneratorai add .)"
+    ]
+  }
+}
