@@ -13,7 +13,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class FashionProductDetailUiState(
-    val isLoading: Boolean = false, val error: String? = null, val uploadedImageUrl: String? = null
+    val isLoading: Boolean = false,
+    val error: String? = null,
+    val generatedImageUrl: String? = null,
+    val userPhotoUri: String? = null,
+    val productImageUrl: String? = null,
 )
 
 @HiltViewModel
@@ -25,16 +29,26 @@ class FashionProductDetailViewModel @Inject constructor(
     val uiState: StateFlow<FashionProductDetailUiState> = _uiState.asStateFlow()
 
     fun onImageSelected(
-        bytes: ByteArray, articleUrl: String, prompt: String
+        bytes: ByteArray,
+        articleUrl: String,
+        prompt: String,
+        userPhotoUri: String?,
     ) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
+            _uiState.update {
+                it.copy(
+                    isLoading = true,
+                    error = null,
+                    userPhotoUri = userPhotoUri,
+                    productImageUrl = articleUrl,
+                )
+            }
             val imageData = ImageData(bytes)
 
             uploadImageUseCase(
                 imageData = imageData, articleUrl = articleUrl, prompt = prompt
             ).onSuccess { url ->
-                _uiState.update { it.copy(isLoading = false, uploadedImageUrl = url) }
+                _uiState.update { it.copy(isLoading = false, generatedImageUrl = url) }
             }.onFailure { error ->
                 _uiState.update { it.copy(isLoading = false, error = error.message) }
             }

@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -38,12 +39,20 @@ import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 fun FashionProductDetailScreen(
     paddingValues: PaddingValues,
     product: FashionProduct?,
+    onNavigateToGeneratedImage: () -> Unit = {},
     viewModel: FashionProductDetailViewModel = hiltViewModel(),
     context: Context = LocalContext.current
 ) {
     if (product == null) return
 
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(uiState.generatedImageUrl) {
+        if (uiState.generatedImageUrl != null) {
+            onNavigateToGeneratedImage()
+        }
+    }
+
     val imagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
@@ -55,7 +64,8 @@ fun FashionProductDetailScreen(
             viewModel.onImageSelected(
                 bytes = bytes,
                 articleUrl = product.imageUrl,
-                prompt = product.negativePrompt.orEmpty()
+                prompt = product.negativePrompt.orEmpty(),
+                userPhotoUri = uri.toString(),
             )
         }
     }
