@@ -10,9 +10,13 @@ class StorageSupabaseService @Inject constructor(
 ) {
 
     fun getUserUploadsBucket(): BucketApi =
-        supabaseClient.storage.from(BUCKET_NAME)
+        supabaseClient.storage.from(USER_UPLOADS_BUCKET)
+
+    fun getImagesBucket(): BucketApi =
+        supabaseClient.storage.from(IMAGES_BUCKET)
 
     companion object {
-        private const val BUCKET_NAME = "user-uploads"
+        const val IMAGES_BUCKET = "fashion_product"
+        private const val USER_UPLOADS_BUCKET = "user-uploads"
     }
 }
