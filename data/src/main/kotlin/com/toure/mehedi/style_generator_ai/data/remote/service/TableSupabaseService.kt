@@ -9,10 +9,10 @@ class TableSupabaseService @Inject constructor(
     private val supabaseClient: SupabaseClient
 ) {
     fun getFashionProductsTable(): PostgrestQueryBuilder =
-        supabaseClient.from(FASHION_PRODUCTS_TABLE)
+        supabaseClient.from(FASHION_PRODUCT_TABLE)
 
     companion object {
 
-        private const val FASHION_PRODUCTS_TABLE = "fashion_products"
+        private const val FASHION_PRODUCT_TABLE = "fashion_product"
     }
 }
