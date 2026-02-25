@@ -4,15 +4,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class FashionProductDto(
+data class DefaultImageDto(
     val id: String,
     val name: String,
     val description: String,
     val category: String,
-    @SerialName("negative_prompt") val negativePrompt: String? = null,
+    @SerialName("prompt") val prompt: String? = null,
     @SerialName("image_path") val imagePath: String,
     @SerialName("aspect_ratio") val aspectRatio: Float,
-    @SerialName("thumbnail_path") val thumbnailPath: String? = null,
     val tags: List<String> = emptyList(),
     val gender: String? = null,
     val style: String? = null,

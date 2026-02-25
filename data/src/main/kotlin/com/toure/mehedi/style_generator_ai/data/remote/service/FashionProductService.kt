@@ -1,7 +1,7 @@
 package com.toure.mehedi.style_generator_ai.data.remote.service
 
 import android.util.Log
-import com.toure.mehedi.style_generator_ai.data.remote.dto.FashionProductDto
+import com.toure.mehedi.style_generator_ai.data.remote.dto.DefaultImageDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -11,12 +11,12 @@ class FashionProductService @Inject constructor(
     private val tableService: TableSupabaseService,
     private val storageService: StorageSupabaseService
 ) {
-    suspend fun getProducts(): List<FashionProductDto> =
+    suspend fun getProducts(): List<DefaultImageDto> =
         withContext(Dispatchers.IO) {
             try {
                 val result = tableService.getFashionProductsTable()
                     .select()
-                    .decodeList<FashionProductDto>()
+                    .decodeList<DefaultImageDto>()
                 Log.d(TAG, "Raw DTOs from Supabase (${result.size}): $result")
                 result.map { product ->
                     product.copy(
