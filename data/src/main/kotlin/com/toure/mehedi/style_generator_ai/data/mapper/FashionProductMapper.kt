@@ -1,18 +1,17 @@
 package com.toure.mehedi.style_generator_ai.data.mapper
 
 import com.toure.mehedi.style_generator_ai.data.remote.dto.DefaultImageDto
-import com.toure.mehedi.style_generator_ai.domain.model.FashionProduct
+import com.toure.mehedi.style_generator_ai.domain.model.DefaultImage
 import com.toure.mehedi.style_generator_ai.domain.model.Gender
 
-fun DefaultImageDto.toDomain(): FashionProduct = FashionProduct(
+fun DefaultImageDto.toDomain(): DefaultImage = DefaultImage(
     id = id,
     name = name,
     description = description,
     category = category,
-    negativePrompt = prompt,
+    prompt = prompt,
     imageUrl = imagePath,
     aspectRatio = aspectRatio,
-    thumbnailUrl = thumbnailPath,
     tags = tags,
     gender = gender.toDomain(),
     style = style,
