@@ -1,5 +1,6 @@
 package com.toure.mehedi.style_generator_ai.domain.usecase
 
+import com.toure.mehedi.style_generator_ai.domain.exception.DataException
 import com.toure.mehedi.style_generator_ai.domain.model.ImageData
 import com.toure.mehedi.style_generator_ai.domain.repository.GenerateImageRepository
 import javax.inject.Inject
@@ -13,13 +14,19 @@ class GenerateImageUseCase @Inject constructor(
         articleUrl: String,
         prompt: String
     ): Result<String> {
-        val userUploadedImageUrl = uploadUserImage(imageData)
-            .getOrElse { return Result.failure(it) }
+        return try {
+            val userUploadedImageUrl = uploadUserImage(imageData)
+                .getOrElse { return Result.failure(it) }
 
-        return generateImageRepository.generate(
-            garmentImageUrl = userUploadedImageUrl,
-            humanImageUrl = userUploadedImageUrl,
-            prompt = prompt
-        )
+            generateImageRepository.generate(
+                garmentImageUrl = userUploadedImageUrl,
+                humanImageUrl = userUploadedImageUrl,
+                prompt = prompt
+            )
+        } catch (e: DataException) {
+            Result.failure(e)
+        } catch (e: Exception) {
+            Result.failure(DataException.Unknown(e.message ?: "Unknown error", e))
+        }
     }
 }
