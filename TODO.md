@@ -11,7 +11,7 @@
 ## Bug / Error Handling
 
 - [ ] Handle all errors from domain layer using `try-catch` and sealed `Exception` classes for logging or UI feedback
-- [ ] Handle UI error when `bytes: ByteArray` is null in `FashionProductDetailViewModel`
+- [ ] Handle UI error when `bytes: ByteArray` is null in `ImageDetailViewModel`
 
 ## Feature
 

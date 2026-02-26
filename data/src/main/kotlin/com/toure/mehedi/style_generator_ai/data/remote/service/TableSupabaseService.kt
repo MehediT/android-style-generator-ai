@@ -8,7 +8,7 @@ import javax.inject.Inject
 class TableSupabaseService @Inject constructor(
     private val supabaseClient: SupabaseClient
 ) {
-    fun getFashionProductsTable(): PostgrestQueryBuilder =
+    fun getImagesTable(): PostgrestQueryBuilder =
         supabaseClient.from(DEFAULT_IMAGES_TABLE)
 
     companion object {

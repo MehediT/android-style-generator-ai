@@ -1,7 +1,6 @@
-package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
+package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
 
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +12,7 @@ import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 import com.toure.mehedi.style_generator_ai.ui.theme.BorderRadius
 
 @Composable
-fun FashionProductDetailImage(
+fun ImageDetailImage(
     imageUrl: String,
     contentDescription: String,
     aspectRatio: Float,
@@ -31,9 +30,9 @@ fun FashionProductDetailImage(
 
 @Preview(showBackground = true)
 @Composable
-private fun FashionProductDetailImagePrev() {
+private fun ImageDetailImagePrev() {
     AppTheme {
-        FashionProductDetailImage(
+        ImageDetailImage(
             imageUrl = "https://picsum.photos/seed/picsum/400/400",
             contentDescription = "Classic Black T-Shirt",
             aspectRatio = 1f

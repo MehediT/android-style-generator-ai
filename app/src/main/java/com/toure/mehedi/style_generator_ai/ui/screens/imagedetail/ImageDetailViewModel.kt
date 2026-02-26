@@ -1,4 +1,4 @@
-package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
+package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class FashionProductDetailUiState(
+data class ImageDetailUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val generatedImageUrl: String? = null,
@@ -21,12 +21,12 @@ data class FashionProductDetailUiState(
 )
 
 @HiltViewModel
-class FashionProductDetailViewModel @Inject constructor(
+class ImageDetailViewModel @Inject constructor(
     private val uploadImageUseCase: GenerateImageUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(FashionProductDetailUiState())
-    val uiState: StateFlow<FashionProductDetailUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(ImageDetailUiState())
+    val uiState: StateFlow<ImageDetailUiState> = _uiState.asStateFlow()
 
     fun onImageSelected(
         bytes: ByteArray,

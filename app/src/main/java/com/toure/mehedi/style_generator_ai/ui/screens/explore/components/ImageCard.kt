@@ -23,15 +23,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.toure.mehedi.style_generator_ai.ui.components.ShimmerPlaceholder
-import com.toure.mehedi.style_generator_ai.ui.models.FashionProduct
+import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
 import com.toure.mehedi.style_generator_ai.ui.models.Gender
 import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 import com.toure.mehedi.style_generator_ai.ui.theme.BorderRadius
 import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
 @Composable
-fun FashionProductCard(
-    product: FashionProduct,
+fun ImageCard(
+    product: ImageUi,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {},
 ) {
@@ -60,7 +60,7 @@ fun FashionProductCard(
                         .aspectRatio(product.aspectRatio)
                 )
             }
-            FashionProductTitle(
+            ImageTitle(
                 title = product.name,
                 modifier = modifier
                     .padding(Spacing.xxs)
@@ -72,7 +72,7 @@ fun FashionProductCard(
 
 
 @Composable
-fun FashionProductTitle(
+fun ImageTitle(
     title: String,
     modifier: Modifier = Modifier
 ) {
@@ -104,7 +104,7 @@ fun FashionProductTitle(
 
 @Preview
 @Composable
-private fun FashionProductCardPrev() {
+private fun ImageCardPrev() {
     AppTheme {
         Box(
             modifier = Modifier
@@ -112,8 +112,8 @@ private fun FashionProductCardPrev() {
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
-            FashionProductCard(
-                FashionProduct(
+            ImageCard(
+                ImageUi(
                     id = "product_1",
                     name = "Classic Black T-Shirt",
                     description = "Timeless black t-shirt perfect for any casual outfit",

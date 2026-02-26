@@ -1,9 +1,9 @@
 package com.toure.mehedi.style_generator_ai.ui.models
 
-import com.toure.mehedi.style_generator_ai.domain.model.DefaultImage as DomainFashionProduct
+import com.toure.mehedi.style_generator_ai.domain.model.DefaultImage as DomainImage
 import com.toure.mehedi.style_generator_ai.domain.model.Gender as DomainGender
 
-fun DomainFashionProduct.toUiModel(): FashionProduct = FashionProduct(
+fun DomainImage.toUiModel(): ImageUi = ImageUi(
     id = id,
     name = name,
     description = description,
@@ -11,7 +11,6 @@ fun DomainFashionProduct.toUiModel(): FashionProduct = FashionProduct(
     negativePrompt = prompt,
     imageUrl = imageUrl,
     aspectRatio = aspectRatio,
-    thumbnailUrl = thumbnailUrl,
     tags = tags,
     gender = gender?.toUiModel(),
     style = style,

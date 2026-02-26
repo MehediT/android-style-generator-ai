@@ -1,4 +1,4 @@
-package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
+package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +14,7 @@ import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
 @Composable
-fun FashionProductMetaChips(
+fun ImageMetaChips(
     category: String,
     style: String?,
     gender: Gender?,
@@ -36,9 +36,9 @@ fun FashionProductMetaChips(
 
 @Preview(showBackground = true)
 @Composable
-private fun FashionProductMetaChipsPrev() {
+private fun ImageMetaChipsPrev() {
     AppTheme {
-        FashionProductMetaChips(
+        ImageMetaChips(
             category = "CLOTHING",
             style = "Casual",
             gender = Gender.UNISEX
