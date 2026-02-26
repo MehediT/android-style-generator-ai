@@ -16,7 +16,7 @@ class StorageSupabaseService @Inject constructor(
         supabaseClient.storage.from(IMAGES_BUCKET)
 
     companion object {
-        const val IMAGES_BUCKET = "fashion_product"
-        private const val USER_UPLOADS_BUCKET = "user-uploads"
+        const val IMAGES_BUCKET = "default_images"
+        private const val USER_UPLOADS_BUCKET = "user_uploads"
 }
 }

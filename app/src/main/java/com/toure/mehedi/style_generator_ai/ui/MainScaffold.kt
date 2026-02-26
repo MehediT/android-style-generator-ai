@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.toure.mehedi.style_generator_ai.navigation.Routes
-import com.toure.mehedi.style_generator_ai.ui.components.topbars.FashionProductDetailTopBar
+import com.toure.mehedi.style_generator_ai.ui.components.topbars.ImageDetailTopBar
 import com.toure.mehedi.style_generator_ai.ui.components.topbars.GeneratedImageTopBar
 import com.toure.mehedi.style_generator_ai.ui.components.topbars.HomeTopBar
 
@@ -25,7 +25,7 @@ fun MainScaffold(
         topBar = {
             when (currentRoute) {
                 Routes.Explore.route -> HomeTopBar()
-                Routes.FashionProductDetail.route -> FashionProductDetailTopBar(
+                Routes.ImageDetail.route -> ImageDetailTopBar(
                     onNavigateBack = { navController.navigateUp() }
                 )
                 Routes.GeneratedImage.route -> GeneratedImageTopBar(

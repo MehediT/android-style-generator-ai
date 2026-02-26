@@ -1,4 +1,4 @@
-package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
+package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
 
 import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -30,17 +30,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.toure.mehedi.style_generator_ai.R
-import com.toure.mehedi.style_generator_ai.ui.models.FashionProduct
-import com.toure.mehedi.style_generator_ai.ui.models.sampleFashionProducts
+import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
+import com.toure.mehedi.style_generator_ai.ui.models.sampleImageUis
 import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
 @Composable
-fun FashionProductDetailScreen(
+fun ImageDetailScreen(
     paddingValues: PaddingValues,
-    product: FashionProduct?,
+    product: ImageUi?,
     onNavigateToGeneratedImage: () -> Unit = {},
-    viewModel: FashionProductDetailViewModel = hiltViewModel(),
+    viewModel: ImageDetailViewModel = hiltViewModel(),
     context: Context = LocalContext.current
 ) {
     if (product == null) return
@@ -88,7 +88,7 @@ fun FashionProductDetailScreen(
                 text = product.name,
                 style = MaterialTheme.typography.headlineMedium
             )
-            FashionProductDetailImage(
+            ImageDetailImage(
                 imageUrl = product.imageUrl,
                 contentDescription = product.name,
                 aspectRatio = product.aspectRatio,
@@ -101,7 +101,7 @@ fun FashionProductDetailScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             if (product.tags.isNotEmpty()) {
-                FashionProductTags(tags = product.tags)
+                ImageTags(tags = product.tags)
             }
         }
 
@@ -121,11 +121,11 @@ fun FashionProductDetailScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun FashionProductDetailScreenPrev() {
+private fun ImageDetailScreenPrev() {
     AppTheme {
-        FashionProductDetailScreen(
+        ImageDetailScreen(
             paddingValues = PaddingValues(),
-            product = sampleFashionProducts.first()
+            product = sampleImageUis.first()
         )
     }
 }

@@ -1,6 +1,6 @@
 package com.toure.mehedi.style_generator_ai.ui.models
 
-data class FashionProduct(
+data class ImageUi(
     override val id: String,
     val name: String,
     override val description: String,
@@ -19,8 +19,8 @@ data class FashionProduct(
         get() = name
 }
 
-val sampleFashionProducts = listOf(
-    FashionProduct(
+val sampleImageUis = listOf(
+    ImageUi(
         id = "product_1",
         name = "Classic Black T-Shirt",
         description = "Timeless black t-shirt perfect for any casual outfit",
@@ -31,7 +31,7 @@ val sampleFashionProducts = listOf(
         gender = Gender.UNISEX,
         style = "Casual",
     ),
-    FashionProduct(
+    ImageUi(
         id = "product_2",
         name = "Summer Dress",
         description = "Light and breezy summer dress for warm days",
@@ -42,7 +42,7 @@ val sampleFashionProducts = listOf(
         gender = Gender.WOMEN,
         style = "Summer",
     ),
-    FashionProduct(
+    ImageUi(
         id = "product_3",
         name = "Leather Jacket",
         description = "Edgy leather jacket to elevate any look",
@@ -54,7 +54,7 @@ val sampleFashionProducts = listOf(
         style = "Street",
         isPremium = true
     ),
-    FashionProduct(
+    ImageUi(
         id = "product_4",
         name = "Running Sneakers",
         description = "High-performance sneakers for all your athletic needs",
@@ -65,7 +65,7 @@ val sampleFashionProducts = listOf(
         gender = Gender.UNISEX,
         style = "Sport",
     ),
-    FashionProduct(
+    ImageUi(
         id = "product_5",
         name = "Designer Handbag",
         description = "Elegant handbag perfect for any occasion",
@@ -77,7 +77,7 @@ val sampleFashionProducts = listOf(
         style = "Luxury",
         isPremium = true
     ),
-    FashionProduct(
+    ImageUi(
         id = "product_6",
         name = "Gold Necklace",
         description = "Delicate gold necklace with minimalist design",
@@ -88,7 +88,7 @@ val sampleFashionProducts = listOf(
         gender = Gender.WOMEN,
         style = "Minimalist",
     ),
-    FashionProduct(
+    ImageUi(
         id = "product_7",
         name = "Baseball Cap",
         description = "Classic baseball cap for casual style",
@@ -99,7 +99,7 @@ val sampleFashionProducts = listOf(
         gender = Gender.UNISEX,
         style = "Casual",
     ),
-    FashionProduct(
+    ImageUi(
         id = "product_8",
         name = "Silk Scarf",
         description = "Premium silk scarf for sophisticated elegance",
