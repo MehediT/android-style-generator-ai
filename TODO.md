@@ -4,9 +4,9 @@
 
 - [x] Change bucket name `fashion_product` to `default_image`
 - [x] Remove `thumbnailUrl` in Supabase → rename to `thumbnailPath`
-- [ ] Change bucket policies for `fashion_product`
+- [X] Change bucket policies for `fashion_product`
 - [x] Rename `negative_prompt` in Supabase → `prompt`
-- [ ] Change bucket `fashion_product` to public
+- [x] Change bucket `fashion_product` to public
 
 ## Bug / Error Handling
 

@@ -33,6 +33,6 @@ class ImageService @Inject constructor(
         private const val TAG = "ImageService"
     }
 
-    private suspend fun String.pathToUrl(): String =
-        storageService.getImagesBucket().createSignedUrl(this, expiresIn = 1.hours)
+    private fun String.pathToUrl(): String =
+        storageService.getImagesBucket().publicUrl(this)
 }
