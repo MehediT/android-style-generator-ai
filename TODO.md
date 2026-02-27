@@ -11,12 +11,13 @@
 ## Bug / Error Handling
 
 - [x] Handle all errors from domain layer using `try-catch` and sealed `Exception` classes for logging or UI feedback
-- [ ] Handle UI error when `bytes: ByteArray` is null in `ImageDetailViewModel`
+- [x] Handle UI error when `bytes: ByteArray` is null in `ImageDetailViewModel`
 
 ## Feature
 
-- [ ] Library of modified pictures
-- [ ] Embed all prompts (or equivalent)
+- [ ] Cancel button when generation of a image
 - [ ] Two-step flow before generating an image
 - [ ] Download or share the generated picture
+- [ ] Embed all prompts (or equivalent)
+- [ ] Library of modified pictures
 - [ ] Article screen — fetch product info from a website URL or marketplace link
