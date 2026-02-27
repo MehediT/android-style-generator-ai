@@ -2,6 +2,7 @@ package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.toure.mehedi.style_generator_ai.domain.exception.DomainException
 import com.toure.mehedi.style_generator_ai.domain.model.ImageData
 import com.toure.mehedi.style_generator_ai.domain.usecase.GenerateImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 data class ImageDetailUiState(
     val isLoading: Boolean = false,
-    val error: String? = null,
+    val error: Throwable? = null,
     val generatedImageUrl: String? = null,
     val userPhotoUri: String? = null,
     val productImageUrl: String? = null,
@@ -38,6 +39,11 @@ class ImageDetailViewModel @Inject constructor(
         prompt: String,
         userPhotoUri: String?,
     ) {
+        if (bytes.isEmpty()) {
+            _uiState.update { it.copy(error = DomainException.Validation("empty bytes")) }
+            return
+        }
+
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
@@ -54,7 +60,7 @@ class ImageDetailViewModel @Inject constructor(
             ).onSuccess { url ->
                 _uiState.update { it.copy(isLoading = false, generatedImageUrl = url) }
             }.onFailure { error ->
-                _uiState.update { it.copy(isLoading = false, error = error.message) }
+                _uiState.update { it.copy(isLoading = false, error = error) }
             }
         }
     }

@@ -16,7 +16,7 @@ import javax.inject.Inject
 data class ExploreUiState(
     val products: List<ImageUi> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null,
+    val error: Throwable? = null,
     val selectedProduct: ImageUi? = null
 )
 
@@ -53,7 +53,7 @@ class ExploreViewModel @Inject constructor(
                     }
                 }
                 .onFailure { error ->
-                    _uiState.update { it.copy(isLoading = false, error = error.message) }
+                    _uiState.update { it.copy(isLoading = false, error = error) }
                 }
         }
     }

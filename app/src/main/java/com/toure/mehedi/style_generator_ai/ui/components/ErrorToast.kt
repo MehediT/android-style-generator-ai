@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.toure.mehedi.style_generator_ai.R
+import com.toure.mehedi.style_generator_ai.ui.models.toErrorResId
 import com.toure.mehedi.style_generator_ai.ui.theme.BorderRadius
 import com.toure.mehedi.style_generator_ai.ui.theme.CharcoalBlack
 import com.toure.mehedi.style_generator_ai.ui.theme.DarkOnSurfaceVariant
@@ -94,18 +95,20 @@ fun ErrorToast(
 
 @Composable
 fun AnimatedErrorToast(
-    error: String?,
+    error: Throwable?,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     bottomPadding: Dp = Spacing.m
 ) {
+    val message = error?.let { stringResource(it.toErrorResId()) }
+
     AnimatedVisibility(
         visible = error != null,
         modifier = modifier.padding(bottom = bottomPadding),
         enter = slideInVertically { it } + fadeIn(),
         exit = slideOutVertically { it } + fadeOut()
     ) {
-        error?.let {
+        message?.let {
             ErrorToast(message = it, onDismiss = onDismiss)
         }
     }
