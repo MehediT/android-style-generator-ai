@@ -3,6 +3,11 @@ package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
 import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.toure.mehedi.style_generator_ai.R
+import com.toure.mehedi.style_generator_ai.ui.components.ErrorToast
 import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
 import com.toure.mehedi.style_generator_ai.ui.models.sampleImageUis
 import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
@@ -102,6 +108,19 @@ fun ImageDetailScreen(
             )
             if (product.tags.isNotEmpty()) {
                 ImageTags(tags = product.tags)
+            }
+        }
+
+        AnimatedVisibility(
+            visible = uiState.error != null,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 96.dp),
+            enter = slideInVertically { it } + fadeIn(),
+            exit = slideOutVertically { it } + fadeOut()
+        ) {
+            uiState.error?.let {
+                ErrorToast(message = it, onDismiss = viewModel::clearError)
             }
         }
 

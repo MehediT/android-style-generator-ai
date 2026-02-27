@@ -28,6 +28,10 @@ class ImageDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ImageDetailUiState())
     val uiState: StateFlow<ImageDetailUiState> = _uiState.asStateFlow()
 
+    fun clearError() {
+        _uiState.update { it.copy(error = null) }
+    }
+
     fun onImageSelected(
         bytes: ByteArray,
         articleUrl: String,

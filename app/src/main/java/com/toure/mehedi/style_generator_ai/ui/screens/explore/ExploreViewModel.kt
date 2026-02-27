@@ -36,6 +36,10 @@ class ExploreViewModel @Inject constructor(
         _uiState.update { it.copy(selectedProduct = product) }
     }
 
+    fun clearError() {
+        _uiState.update { it.copy(error = null) }
+    }
+
     private fun loadProducts() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }

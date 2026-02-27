@@ -15,4 +15,5 @@
     <string name="generated_image">Image générée</string>
     <string name="product_image">Image du produit</string>
     <string name="your_photo">Votre photo</string>
+    <string name="dismiss">Fermer</string>
 </resources>
