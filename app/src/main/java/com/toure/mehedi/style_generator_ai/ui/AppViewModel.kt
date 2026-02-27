@@ -25,7 +25,10 @@ class AppViewModel @Inject constructor(
             _authState.value = AuthState.Loading
             runCatching { ensureAnonymousAuth() }
                 .onSuccess { _authState.value = AuthState.Authenticated }
-                .onFailure { _authState.value = AuthState.Error(it.message ?: "Unknown error") }
+                .onFailure {
+                    Log.e(TAG, "ensureSession error: ${it::class.simpleName} — ${it.message}", it)
+                    _authState.value = AuthState.Error(it.message ?: "Unknown error")
+                }
             Log.d(TAG, "ensureSession: ${_authState.value}")
         }
     }

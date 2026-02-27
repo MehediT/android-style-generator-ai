@@ -1,5 +1,6 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.exception.DomainException
@@ -29,6 +30,10 @@ class ImageDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ImageDetailUiState())
     val uiState: StateFlow<ImageDetailUiState> = _uiState.asStateFlow()
 
+    companion object {
+        private const val TAG = "ImageDetailViewModel"
+    }
+
     fun clearError() {
         _uiState.update { it.copy(error = null) }
     }
@@ -40,6 +45,7 @@ class ImageDetailViewModel @Inject constructor(
         userPhotoUri: String?,
     ) {
         if (bytes.isEmpty()) {
+            Log.e(TAG, "onImageSelected: bytes are empty, aborting")
             _uiState.update { it.copy(error = DomainException.Validation("empty bytes")) }
             return
         }
@@ -60,6 +66,7 @@ class ImageDetailViewModel @Inject constructor(
             ).onSuccess { url ->
                 _uiState.update { it.copy(isLoading = false, generatedImageUrl = url) }
             }.onFailure { error ->
+                Log.e(TAG, "onImageSelected error: ${error::class.simpleName} — ${error.message}", error)
                 _uiState.update { it.copy(isLoading = false, error = error) }
             }
         }

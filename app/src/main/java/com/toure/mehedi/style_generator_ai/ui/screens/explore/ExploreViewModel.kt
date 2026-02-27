@@ -1,5 +1,6 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.explore
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.usecase.GetImagesUseCase
@@ -28,6 +29,10 @@ class ExploreViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ExploreUiState())
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
 
+    companion object {
+        private const val TAG = "ExploreViewModel"
+    }
+
     init {
         loadProducts()
     }
@@ -53,6 +58,7 @@ class ExploreViewModel @Inject constructor(
                     }
                 }
                 .onFailure { error ->
+                    Log.e(TAG, "loadProducts error: ${error::class.simpleName} — ${error.message}", error)
                     _uiState.update { it.copy(isLoading = false, error = error) }
                 }
         }
