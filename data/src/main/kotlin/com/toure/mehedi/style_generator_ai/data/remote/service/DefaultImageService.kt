@@ -5,9 +5,8 @@ import com.toure.mehedi.style_generator_ai.data.remote.dto.DefaultImageDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.hours
 
-class ImageService @Inject constructor(
+class DefaultImageService @Inject constructor(
     private val tableService: TableSupabaseService,
     private val storageService: StorageSupabaseService
 ) {
@@ -18,10 +17,13 @@ class ImageService @Inject constructor(
                     .select()
                     .decodeList<DefaultImageDto>()
                 Log.d(TAG, "Raw DTOs from Supabase (${result.size}): $result")
-                result.map { product ->
-                    product.copy(
-                        imagePath = product.imagePath.pathToUrl(),
-                    )
+                result.mapNotNull { product ->
+                    try {
+                        product.copy(imagePath = product.imagePath.pathToUrl())
+                    } catch (e: Exception) {
+                        Log.w(TAG, "Skipping product id=${product.id}: publicUrl failed — ${e.message}")
+                        null
+                    }
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Erreur decodeList: ${e::class.simpleName} - ${e.message}", e)
@@ -30,7 +32,7 @@ class ImageService @Inject constructor(
         }
 
     companion object {
-        private const val TAG = "ImageService"
+        private const val TAG = "DefaultImageService"
     }
 
     private fun String.pathToUrl(): String =

@@ -2,7 +2,7 @@ package com.toure.mehedi.style_generator_ai.data.repository
 
 import com.toure.mehedi.style_generator_ai.data.mapper.toDomain
 import com.toure.mehedi.style_generator_ai.data.remote.dto.DefaultImageDto
-import com.toure.mehedi.style_generator_ai.data.remote.service.ImageService
+import com.toure.mehedi.style_generator_ai.data.remote.service.DefaultImageService
 import com.toure.mehedi.style_generator_ai.domain.exception.DataException
 import com.toure.mehedi.style_generator_ai.domain.model.DefaultImage
 import com.toure.mehedi.style_generator_ai.domain.repository.ImageRepository
@@ -13,7 +13,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class ImageRepositoryImpl @Inject constructor(
-    private val service: ImageService
+    private val service: DefaultImageService
 ) : ImageRepository {
 
     override suspend fun getProducts(): Result<List<DefaultImage>> = withContext(Dispatchers.IO) {
