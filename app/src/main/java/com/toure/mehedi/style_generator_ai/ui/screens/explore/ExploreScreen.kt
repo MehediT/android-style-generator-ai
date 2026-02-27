@@ -1,10 +1,5 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.explore
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.toure.mehedi.style_generator_ai.ui.components.ErrorToast
+import com.toure.mehedi.style_generator_ai.ui.components.AnimatedErrorToast
 import com.toure.mehedi.style_generator_ai.ui.models.ExploreCard
 import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
 import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.ImageCard
@@ -51,18 +46,11 @@ fun ExploreScreen(
             }
         )
 
-        AnimatedVisibility(
-            visible = uiState.error != null,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = Spacing.m),
-            enter = slideInVertically { it } + fadeIn(),
-            exit = slideOutVertically { it } + fadeOut()
-        ) {
-            uiState.error?.let {
-                ErrorToast(message = it, onDismiss = viewModel::clearError)
-            }
-        }
+        AnimatedErrorToast(
+            error = uiState.error,
+            onDismiss = viewModel::clearError,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
 
