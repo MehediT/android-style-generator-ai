@@ -29,7 +29,9 @@ class MainActivity : ComponentActivity() {
         appViewModel.ensureSession()
         setContent {
             AppTheme {
-                InternetPermissionHandler()
+                PermissionHandler{
+                    AppContent(appViewModel)
+                }
             }
         }
     }
@@ -37,7 +39,9 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-private fun InternetPermissionHandler() {
+private fun PermissionHandler(
+    content: @Composable () -> Unit
+) {
     val permissionState = rememberPermissionState(
         permission = Manifest.permission.INTERNET
     )
@@ -47,13 +51,18 @@ private fun InternetPermissionHandler() {
             permissionState.launchPermissionRequest()
         }
     }
-    AppContent()
+    content()
 }
 
 @Composable
-private fun AppContent() {
+private fun AppContent(
+    viewModel : AppViewModel
+) {
     val navController = rememberNavController()
-    MainScaffold(navController = navController) { paddingValues ->
+    MainScaffold(
+        navController = navController,
+        viewModel = viewModel,
+    ) { paddingValues ->
         NavGraph(
             navController = navController,
             paddingValues = paddingValues

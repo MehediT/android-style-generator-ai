@@ -10,11 +10,9 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.toure.mehedi.style_generator_ai.ui.components.AnimatedErrorToast
 import com.toure.mehedi.style_generator_ai.ui.models.ExploreCard
 import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
 import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.ImageCard
@@ -44,12 +42,6 @@ fun ExploreScreen(
                 viewModel.selectProduct(product)
                 onNavigateToProductDetail()
             }
-        )
-
-        AnimatedErrorToast(
-            error = uiState.error,
-            onDismiss = viewModel::clearError,
-            modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 }

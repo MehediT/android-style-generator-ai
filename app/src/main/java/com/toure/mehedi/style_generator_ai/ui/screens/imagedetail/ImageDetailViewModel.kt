@@ -1,12 +1,17 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.exception.DomainException
 import com.toure.mehedi.style_generator_ai.domain.model.ImageData
 import com.toure.mehedi.style_generator_ai.domain.usecase.GenerateImageUseCase
+import com.toure.mehedi.style_generator_ai.ui.BaseViewModel
+import com.toure.mehedi.style_generator_ai.ui.models.AppEvent
+import com.toure.mehedi.style_generator_ai.ui.models.AppEventBus
+import com.toure.mehedi.style_generator_ai.ui.models.toErrorResId
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +21,6 @@ import javax.inject.Inject
 
 data class ImageDetailUiState(
     val isLoading: Boolean = false,
-    val error: Throwable? = null,
     val generatedImageUrl: String? = null,
     val userPhotoUri: String? = null,
     val productImageUrl: String? = null,
@@ -24,18 +28,23 @@ data class ImageDetailUiState(
 
 @HiltViewModel
 class ImageDetailViewModel @Inject constructor(
+    appEventBus: AppEventBus,
     private val uploadImageUseCase: GenerateImageUseCase,
-) : ViewModel() {
+) : BaseViewModel(appEventBus) {
 
     private val _uiState = MutableStateFlow(ImageDetailUiState())
     val uiState: StateFlow<ImageDetailUiState> = _uiState.asStateFlow()
+
+    private var generationJob: Job? = null
 
     companion object {
         private const val TAG = "ImageDetailViewModel"
     }
 
-    fun clearError() {
-        _uiState.update { it.copy(error = null) }
+    fun cancelGeneration() {
+        generationJob?.cancel()
+        generationJob = null
+        _uiState.update { it.copy(isLoading = false) }
     }
 
     fun onImageSelected(
@@ -46,15 +55,14 @@ class ImageDetailViewModel @Inject constructor(
     ) {
         if (bytes.isEmpty()) {
             Log.e(TAG, "onImageSelected: bytes are empty, aborting")
-            _uiState.update { it.copy(error = DomainException.Validation("empty bytes")) }
+            emitEvent(AppEvent.Error(DomainException.Validation("").toErrorResId()))
             return
         }
 
-        viewModelScope.launch {
+        generationJob = viewModelScope.launch {
             _uiState.update {
                 it.copy(
                     isLoading = true,
-                    error = null,
                     userPhotoUri = userPhotoUri,
                     productImageUrl = articleUrl,
                 )
@@ -66,8 +74,13 @@ class ImageDetailViewModel @Inject constructor(
             ).onSuccess { url ->
                 _uiState.update { it.copy(isLoading = false, generatedImageUrl = url) }
             }.onFailure { error ->
-                Log.e(TAG, "onImageSelected error: ${error::class.simpleName} — ${error.message}", error)
-                _uiState.update { it.copy(isLoading = false, error = error) }
+                _uiState.update { it.copy(isLoading = false) }
+                if (error.cause is CancellationException) {
+                    Log.d(TAG, "onImageSelected: generation cancelled by user")
+                } else {
+                    Log.e(TAG, "onImageSelected error: ${error::class.simpleName} — ${error.message}", error)
+                    emitEvent(AppEvent.Error(error.toErrorResId()))
+                }
             }
         }
     }

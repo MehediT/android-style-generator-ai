@@ -1,10 +1,13 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.explore
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.usecase.GetImagesUseCase
+import com.toure.mehedi.style_generator_ai.ui.BaseViewModel
+import com.toure.mehedi.style_generator_ai.ui.models.AppEvent
+import com.toure.mehedi.style_generator_ai.ui.models.AppEventBus
 import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
+import com.toure.mehedi.style_generator_ai.ui.models.toErrorResId
 import com.toure.mehedi.style_generator_ai.ui.models.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,14 +20,14 @@ import javax.inject.Inject
 data class ExploreUiState(
     val products: List<ImageUi> = emptyList(),
     val isLoading: Boolean = false,
-    val error: Throwable? = null,
     val selectedProduct: ImageUi? = null
 )
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
+    appEventBus: AppEventBus,
     private val getImages: GetImagesUseCase
-) : ViewModel() {
+) : BaseViewModel(appEventBus) {
 
     private val _uiState = MutableStateFlow(ExploreUiState())
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
@@ -41,13 +44,9 @@ class ExploreViewModel @Inject constructor(
         _uiState.update { it.copy(selectedProduct = product) }
     }
 
-    fun clearError() {
-        _uiState.update { it.copy(error = null) }
-    }
-
     private fun loadProducts() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
+            _uiState.update { it.copy(isLoading = true) }
             getImages()
                 .onSuccess { products ->
                     _uiState.update {
@@ -59,7 +58,8 @@ class ExploreViewModel @Inject constructor(
                 }
                 .onFailure { error ->
                     Log.e(TAG, "loadProducts error: ${error::class.simpleName} — ${error.message}", error)
-                    _uiState.update { it.copy(isLoading = false, error = error) }
+                    _uiState.update { it.copy(isLoading = false) }
+                    emitEvent(AppEvent.Error(error.toErrorResId()))
                 }
         }
     }
