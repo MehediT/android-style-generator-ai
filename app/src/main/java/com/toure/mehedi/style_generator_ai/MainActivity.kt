@@ -51,6 +51,7 @@ private fun PermissionHandler(
             permissionState.launchPermissionRequest()
         }
     }
+    content()
 }
 
 @Composable
