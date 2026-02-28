@@ -15,9 +15,14 @@
 
 ## Feature
 
-- [ ] Cancel button when generation of a image
+- [ ] Cancel button when generation of image
+- [ ] Show multiple error instead of one 
 - [ ] Two-step flow before generating an image
 - [ ] Download or share the generated picture
 - [ ] Embed all prompts (or equivalent)
 - [ ] Library of modified pictures
 - [ ] Article screen — fetch product info from a website URL or marketplace link
+
+## Animation
+- [ ] Animation fade out error 
+- [ ] 
