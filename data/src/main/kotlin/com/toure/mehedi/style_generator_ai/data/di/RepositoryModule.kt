@@ -1,11 +1,11 @@
 package com.toure.mehedi.style_generator_ai.data.di
 
 import com.toure.mehedi.style_generator_ai.data.repository.AuthRepositoryImpl
-import com.toure.mehedi.style_generator_ai.data.repository.FashionProductRepositoryImpl
+import com.toure.mehedi.style_generator_ai.data.repository.ImageRepositoryImpl
 import com.toure.mehedi.style_generator_ai.data.repository.GenerateImageRepositoryImpl
 import com.toure.mehedi.style_generator_ai.data.repository.UserImageRepositoryImpl
 import com.toure.mehedi.style_generator_ai.domain.repository.AuthRepository
-import com.toure.mehedi.style_generator_ai.domain.repository.FashionProductRepository
+import com.toure.mehedi.style_generator_ai.domain.repository.ImageRepository
 import com.toure.mehedi.style_generator_ai.domain.repository.GenerateImageRepository
 import com.toure.mehedi.style_generator_ai.domain.repository.UserImageRepository
 import dagger.Binds
@@ -19,9 +19,9 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindFashionProductRepository(
-        impl: FashionProductRepositoryImpl
-    ): FashionProductRepository
+    abstract fun bindImageRepository(
+        impl: ImageRepositoryImpl
+    ): ImageRepository
 
     @Binds
     @Singleton

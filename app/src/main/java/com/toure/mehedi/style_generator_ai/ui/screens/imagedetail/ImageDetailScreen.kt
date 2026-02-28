@@ -1,4 +1,4 @@
-package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
+package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
 
 import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -17,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,17 +31,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.toure.mehedi.style_generator_ai.R
-import com.toure.mehedi.style_generator_ai.ui.models.FashionProduct
-import com.toure.mehedi.style_generator_ai.ui.models.sampleFashionProducts
+import com.toure.mehedi.style_generator_ai.ui.screens.imagedetail.components.ImageDetailImage
+import com.toure.mehedi.style_generator_ai.ui.screens.imagedetail.components.ImageTags
+import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
+import com.toure.mehedi.style_generator_ai.ui.models.sampleImageUis
 import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
 @Composable
-fun FashionProductDetailScreen(
+fun ImageDetailScreen(
     paddingValues: PaddingValues,
-    product: FashionProduct?,
+    product: ImageUi?,
     onNavigateToGeneratedImage: () -> Unit = {},
-    viewModel: FashionProductDetailViewModel = hiltViewModel(),
+    viewModel: ImageDetailViewModel = hiltViewModel(),
     context: Context = LocalContext.current
 ) {
     if (product == null) return
@@ -88,7 +91,7 @@ fun FashionProductDetailScreen(
                 text = product.name,
                 style = MaterialTheme.typography.headlineMedium
             )
-            FashionProductDetailImage(
+            ImageDetailImage(
                 imageUrl = product.imageUrl,
                 contentDescription = product.name,
                 aspectRatio = product.aspectRatio,
@@ -101,31 +104,43 @@ fun FashionProductDetailScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             if (product.tags.isNotEmpty()) {
-                FashionProductTags(tags = product.tags)
+                ImageTags(tags = product.tags)
             }
         }
 
-        Button(
-            onClick = { imagePicker.launch("image/*") },
-            enabled = !uiState.isLoading,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = Spacing.l)
-                .width(240.dp)
-                .height(56.dp)
-        ) {
-            Text(stringResource(R.string.test_on_me))
+        if (uiState.isLoading) {
+            OutlinedButton(
+                onClick = viewModel::cancelGeneration,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = Spacing.l)
+                    .width(240.dp)
+                    .height(56.dp)
+            ) {
+                Text(stringResource(R.string.cancel_generation))
+            }
+        } else {
+            Button(
+                onClick = { imagePicker.launch("image/*") },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = Spacing.l)
+                    .width(240.dp)
+                    .height(56.dp)
+            ) {
+                Text(stringResource(R.string.test_on_me))
+            }
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun FashionProductDetailScreenPrev() {
+private fun ImageDetailScreenPrev() {
     AppTheme {
-        FashionProductDetailScreen(
+        ImageDetailScreen(
             paddingValues = PaddingValues(),
-            product = sampleFashionProducts.first()
+            product = sampleImageUis.first()
         )
     }
 }

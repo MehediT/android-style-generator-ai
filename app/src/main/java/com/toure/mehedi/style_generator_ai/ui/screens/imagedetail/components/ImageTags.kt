@@ -1,4 +1,4 @@
-package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
+package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,7 +13,7 @@ import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
 @Composable
-fun FashionProductTags(
+fun ImageTags(
     tags: List<String>,
     modifier: Modifier = Modifier,
 ) {
@@ -37,9 +37,9 @@ fun FashionProductTags(
 
 @Preview(showBackground = true)
 @Composable
-private fun FashionProductTagsPrev() {
+private fun ImageTagsPrev() {
     AppTheme {
-        FashionProductTags(
+        ImageTags(
             tags = listOf("casual", "basic", "black", "unisex")
         )
     }

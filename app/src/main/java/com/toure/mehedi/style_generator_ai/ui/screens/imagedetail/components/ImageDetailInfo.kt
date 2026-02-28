@@ -1,19 +1,13 @@
-package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
+package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.toure.mehedi.style_generator_ai.ui.models.Gender
 import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
-import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 
 @Composable
-fun FashionProductDetailInfo(
+fun ImageDetailInfo(
     name: String,
     isPremium: Boolean,
     category: String,
@@ -28,9 +22,9 @@ fun FashionProductDetailInfo(
 
 @Preview(showBackground = true)
 @Composable
-private fun FashionProductDetailInfoPrev() {
+private fun ImageDetailInfoPrev() {
     AppTheme {
-        FashionProductDetailInfo(
+        ImageDetailInfo(
             name = "Classic Black T-Shirt",
             isPremium = true,
             category = "CLOTHING",

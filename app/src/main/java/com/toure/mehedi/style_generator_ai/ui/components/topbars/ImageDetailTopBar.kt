@@ -18,7 +18,7 @@ import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FashionProductDetailTopBar(
+fun ImageDetailTopBar(
     modifier: Modifier = Modifier,
     onNavigateBack: () -> Unit = {},
     onShare: () -> Unit = {},
@@ -61,8 +61,8 @@ fun FashionProductDetailTopBar(
 
 @Preview
 @Composable
-private fun FashionProductDetailTopBarPrev() {
+private fun ImageDetailTopBarPrev() {
     AppTheme {
-        FashionProductDetailTopBar()
+        ImageDetailTopBar()
     }
 }

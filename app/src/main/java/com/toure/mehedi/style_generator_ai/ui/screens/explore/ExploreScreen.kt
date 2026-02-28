@@ -1,6 +1,7 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.explore
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.toure.mehedi.style_generator_ai.ui.models.ExploreCard
-import com.toure.mehedi.style_generator_ai.ui.models.FashionProduct
-import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.FashionProductCard
+import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
+import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.ImageCard
 import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.PromotionAction
 import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.PromotionCard
 import com.toure.mehedi.style_generator_ai.ui.screens.explore.components.PromotionCardComposable
@@ -29,23 +30,27 @@ fun ExploreScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    ExploreContent(
+    Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(paddingValues),
-        uiState = uiState,
-        onNavigateToProductDetail = { product ->
-            viewModel.selectProduct(product)
-            onNavigateToProductDetail()
-        }
-    )
+            .padding(paddingValues)
+    ) {
+        ExploreContent(
+            modifier = Modifier.fillMaxSize(),
+            uiState = uiState,
+            onNavigateToProductDetail = { product ->
+                viewModel.selectProduct(product)
+                onNavigateToProductDetail()
+            }
+        )
+    }
 }
 
 @Composable
 private fun ExploreContent(
     modifier: Modifier,
     uiState: ExploreUiState,
-    onNavigateToProductDetail: (FashionProduct) -> Unit = {},
+    onNavigateToProductDetail: (ImageUi) -> Unit = {},
 ) {
     // Crée une liste qui alterne produits et promotions
     val itemsWithPromotions: List<ExploreCard> = buildList {
@@ -82,8 +87,8 @@ private fun ExploreContent(
                         onClick = { /* Handle promotion click */ }
                     )
                 }
-                is FashionProduct -> {
-                    FashionProductCard(
+                is ImageUi -> {
+                    ImageCard(
                         product = item,
                         onClick = { onNavigateToProductDetail(item) }
                     )

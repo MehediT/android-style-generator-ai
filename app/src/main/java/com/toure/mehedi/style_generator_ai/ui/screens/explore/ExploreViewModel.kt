@@ -1,9 +1,13 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.explore
 
-import androidx.lifecycle.ViewModel
+import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.toure.mehedi.style_generator_ai.domain.usecase.GetFashionProductsUseCase
-import com.toure.mehedi.style_generator_ai.ui.models.FashionProduct
+import com.toure.mehedi.style_generator_ai.domain.usecase.GetImagesUseCase
+import com.toure.mehedi.style_generator_ai.ui.BaseViewModel
+import com.toure.mehedi.style_generator_ai.ui.models.AppEvent
+import com.toure.mehedi.style_generator_ai.ui.models.AppEventBus
+import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
+import com.toure.mehedi.style_generator_ai.ui.models.toErrorResId
 import com.toure.mehedi.style_generator_ai.ui.models.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,32 +18,36 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ExploreUiState(
-    val products: List<FashionProduct> = emptyList(),
+    val products: List<ImageUi> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null,
-    val selectedProduct: FashionProduct? = null
+    val selectedProduct: ImageUi? = null
 )
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
-    private val getFashionProducts: GetFashionProductsUseCase
-) : ViewModel() {
+    appEventBus: AppEventBus,
+    private val getImages: GetImagesUseCase
+) : BaseViewModel(appEventBus) {
 
     private val _uiState = MutableStateFlow(ExploreUiState())
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
+
+    companion object {
+        private const val TAG = "ExploreViewModel"
+    }
 
     init {
         loadProducts()
     }
 
-    fun selectProduct(product: FashionProduct) {
+    fun selectProduct(product: ImageUi) {
         _uiState.update { it.copy(selectedProduct = product) }
     }
 
     private fun loadProducts() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
-            getFashionProducts()
+            _uiState.update { it.copy(isLoading = true) }
+            getImages()
                 .onSuccess { products ->
                     _uiState.update {
                         it.copy(
@@ -49,7 +57,9 @@ class ExploreViewModel @Inject constructor(
                     }
                 }
                 .onFailure { error ->
-                    _uiState.update { it.copy(isLoading = false, error = error.message) }
+                    Log.e(TAG, "loadProducts error: ${error::class.simpleName} — ${error.message}", error)
+                    _uiState.update { it.copy(isLoading = false) }
+                    emitEvent(AppEvent.Error(error.toErrorResId()))
                 }
         }
     }

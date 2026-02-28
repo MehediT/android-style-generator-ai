@@ -1,4 +1,4 @@
-package com.toure.mehedi.style_generator_ai.ui.screens.fashionproductdetail
+package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
@@ -13,7 +13,7 @@ import com.toure.mehedi.style_generator_ai.R
 import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
 
 @Composable
-fun FashionProductPremiumBadge(
+fun ImagePremiumBadge(
     modifier: Modifier = Modifier,
 ) {
     SuggestionChip(
@@ -31,8 +31,8 @@ fun FashionProductPremiumBadge(
 
 @Preview(showBackground = true)
 @Composable
-private fun FashionProductPremiumBadgePrev() {
+private fun ImagePremiumBadgePrev() {
     AppTheme {
-        FashionProductPremiumBadge()
+        ImagePremiumBadge()
     }
 }

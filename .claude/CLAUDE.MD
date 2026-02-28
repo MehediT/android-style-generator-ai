@@ -79,7 +79,7 @@ app/src/main/java/com/toure/mehedi/style_generator_ai/
 ├── ui/
 │   ├── MainScaffold.kt         # Root scaffold with dynamic top bar selection
 │   ├── models/                 # UI-layer data models
-│   │   ├── FashionProduct.kt
+│   │   ├── DefaultImage.kt
 │   │   ├── ExploreCard.kt      # Interface implemented by FashionProduct & PromotionCard
 │   │   ├── Gender.kt
 │   │   └── FashionProductMapper.kt  # domain → UI model mapping
