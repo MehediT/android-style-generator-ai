@@ -1,8 +1,10 @@
 package com.toure.mehedi.style_generator_ai.ui.models
 
-sealed class AppEvent(open val message: String) {
-    data class Error(override val message: String) : AppEvent(message)
-    data class Warning(override val message: String) : AppEvent(message)
-    data class Info(override val message: String) : AppEvent(message)
-    data class Success(override val message: String) : AppEvent(message)
+import androidx.annotation.StringRes
+
+sealed class AppEvent(@param:StringRes open val messageRes: Int) {
+    data class Error(@param:StringRes override val messageRes: Int) : AppEvent(messageRes)
+    data class Warning(@param:StringRes override val messageRes: Int) : AppEvent(messageRes)
+    data class Info(@param:StringRes override val messageRes: Int) : AppEvent(messageRes)
+    data class Success(@param:StringRes override val messageRes: Int) : AppEvent(messageRes)
 }

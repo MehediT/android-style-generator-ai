@@ -154,7 +154,7 @@ fun AnimatedEventToast(
         exit = slideOutVertically { it } + fadeOut()
     ) {
         event?.let {
-            ErrorToast(message = it.message, icon = icon, iconTint = iconTint, onDismiss = onDismiss)
+            ErrorToast(message = stringResource(it.messageRes), icon = icon, iconTint = iconTint, onDismiss = onDismiss)
         }
     }
 }

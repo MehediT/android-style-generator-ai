@@ -1,6 +1,5 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.explore
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.usecase.GetImagesUseCase
@@ -11,7 +10,6 @@ import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
 import com.toure.mehedi.style_generator_ai.ui.models.toErrorResId
 import com.toure.mehedi.style_generator_ai.ui.models.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +26,6 @@ data class ExploreUiState(
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
     appEventBus: AppEventBus,
-    @ApplicationContext private val context: Context,
     private val getImages: GetImagesUseCase
 ) : BaseViewModel(appEventBus) {
 
@@ -62,7 +59,7 @@ class ExploreViewModel @Inject constructor(
                 .onFailure { error ->
                     Log.e(TAG, "loadProducts error: ${error::class.simpleName} — ${error.message}", error)
                     _uiState.update { it.copy(isLoading = false) }
-                    emitEvent(AppEvent.Error(context.getString(error.toErrorResId())))
+                    emitEvent(AppEvent.Error(error.toErrorResId()))
                 }
         }
     }
