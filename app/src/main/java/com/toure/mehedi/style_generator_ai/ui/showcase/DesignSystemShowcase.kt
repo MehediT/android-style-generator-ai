@@ -22,12 +22,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.toure.mehedi.style_generator_ai.domain.exception.DataException
+import com.toure.mehedi.style_generator_ai.ui.components.AnimatedErrorToast
 import com.toure.mehedi.style_generator_ai.ui.components.PrimaryButton
 import com.toure.mehedi.style_generator_ai.ui.components.SecondaryButton
 import com.toure.mehedi.style_generator_ai.ui.components.TertiaryButton
@@ -47,89 +53,109 @@ import com.toure.mehedi.style_generator_ai.ui.theme.Spacing
 import com.toure.mehedi.style_generator_ai.ui.theme.Success
 import com.toure.mehedi.style_generator_ai.ui.theme.Warning
 
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DesignSystemShowcase() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = BackgroundWhite
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(Spacing.l)
-        ) {
-            // Header
-            Text(
-                text = "Design System",
-                style = MaterialTheme.typography.displayLarge,
-                color = CharcoalBlack
+    AppTheme {
+
+        var testError by remember { mutableStateOf<Throwable?>(null) }
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = BackgroundWhite
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(Spacing.l)
+                ) {
+                    // Header
+                    Text(
+                        text = "Design System",
+                        style = MaterialTheme.typography.displayLarge,
+                        color = CharcoalBlack
+                    )
+
+                    Spacer(modifier = Modifier.height(Spacing.xl))
+
+                    // === COULEURS ===
+                    SectionTitle("Couleurs")
+
+                    ColorPaletteSection(
+                        title = "Primaires",
+                        colors = listOf(
+                            ColorItem("Rouge Principal", PinterestRed, "#E60023"),
+                            ColorItem("Rouge Hover", PinterestRedHover, "#AD081B"),
+                            ColorItem("Blanc Cassé", BackgroundWhite, "#F7F7F7"),
+                            ColorItem("Noir Charbon", CharcoalBlack, "#1A1A1A")
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(Spacing.m))
+
+                    ColorPaletteSection(
+                        title = "Secondaires",
+                        colors = listOf(
+                            ColorItem("Gris Clair", LightGray, "#EFEFEF"),
+                            ColorItem("Gris Moyen", MediumGray, "#767676"),
+                            ColorItem("Blanc Pur", PureWhite, "#FFFFFF")
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(Spacing.m))
+
+                    ColorPaletteSection(
+                        title = "Utilitaires",
+                        colors = listOf(
+                            ColorItem("Success", Success, "#00C851"),
+                            ColorItem("Warning", Warning, "#FFB300"),
+                            ColorItem("Error", Error, "#FF3547"),
+                            ColorItem("Info", Info, "#0099FF")
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(Spacing.xl))
+
+                    // === TYPOGRAPHIE ===
+                    SectionTitle("Typographie")
+
+                    TypographySection()
+
+                    Spacer(modifier = Modifier.height(Spacing.xl))
+
+                    // === BOUTONS ===
+                    SectionTitle("Boutons")
+
+                    ButtonSection()
+
+                    Spacer(modifier = Modifier.height(Spacing.xl))
+
+                    // === CARTES ===
+                    SectionTitle("Cartes & Élévation")
+
+                    CardSection()
+
+                    Spacer(modifier = Modifier.height(Spacing.xl))
+
+                    // === COMPOSANTS ===
+                    SectionTitle("Composants")
+
+                    ErrorToastSection(onTrigger = { testError = it })
+
+                    Spacer(modifier = Modifier.height(Spacing.xxl))
+                }
+            }
+
+            AnimatedErrorToast(
+                error = testError,
+                onDismiss = { testError = null },
+                modifier = Modifier.align(Alignment.BottomCenter)
             )
-
-            Spacer(modifier = Modifier.height(Spacing.xl))
-
-            // === COULEURS ===
-            SectionTitle("Couleurs")
-
-            ColorPaletteSection(
-                title = "Primaires",
-                colors = listOf(
-                    ColorItem("Rouge Principal", PinterestRed, "#E60023"),
-                    ColorItem("Rouge Hover", PinterestRedHover, "#AD081B"),
-                    ColorItem("Blanc Cassé", BackgroundWhite, "#F7F7F7"),
-                    ColorItem("Noir Charbon", CharcoalBlack, "#1A1A1A")
-                )
-            )
-
-            Spacer(modifier = Modifier.height(Spacing.m))
-
-            ColorPaletteSection(
-                title = "Secondaires",
-                colors = listOf(
-                    ColorItem("Gris Clair", LightGray, "#EFEFEF"),
-                    ColorItem("Gris Moyen", MediumGray, "#767676"),
-                    ColorItem("Blanc Pur", PureWhite, "#FFFFFF")
-                )
-            )
-
-            Spacer(modifier = Modifier.height(Spacing.m))
-
-            ColorPaletteSection(
-                title = "Utilitaires",
-                colors = listOf(
-                    ColorItem("Success", Success, "#00C851"),
-                    ColorItem("Warning", Warning, "#FFB300"),
-                    ColorItem("Error", Error, "#FF3547"),
-                    ColorItem("Info", Info, "#0099FF")
-                )
-            )
-
-            Spacer(modifier = Modifier.height(Spacing.xl))
-
-            // === TYPOGRAPHIE ===
-            SectionTitle("Typographie")
-
-            TypographySection()
-
-            Spacer(modifier = Modifier.height(Spacing.xl))
-
-            // === BOUTONS ===
-            SectionTitle("Boutons")
-
-            ButtonSection()
-
-            Spacer(modifier = Modifier.height(Spacing.xl))
-
-            // === CARTES ===
-            SectionTitle("Cartes & Élévation")
-
-            CardSection()
-
-            Spacer(modifier = Modifier.height(Spacing.xxl))
         }
     }
 }
-
 @Composable
 private fun SectionTitle(title: String) {
     Text(
@@ -325,16 +351,33 @@ private fun ElevationCard(
     }
 }
 
+@Composable
+private fun ErrorToastSection(onTrigger: (Throwable) -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(Spacing.m)
+    ) {
+        PrimaryButton(
+            text = "Erreur réseau",
+            onClick = { onTrigger(DataException.Network("Connexion perdue")) }
+        )
+        PrimaryButton(
+            text = "Erreur serveur",
+            onClick = { onTrigger(DataException.Http(500, "Internal Server Error")) }
+        )
+        SecondaryButton(
+            text = "Erreur stockage",
+            onClick = { onTrigger(DataException.Storage("Bucket introuvable")) }
+        )
+        TertiaryButton(
+            text = "Erreur inconnue",
+            onClick = { onTrigger(DataException.Unknown("Something went wrong")) }
+        )
+    }
+}
+
 private data class ColorItem(
     val name: String,
     val color: Color,
     val hex: String
 )
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun DesignSystemShowcasePreview() {
-    AppTheme {
-        DesignSystemShowcase()
-    }
-}

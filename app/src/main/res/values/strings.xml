@@ -15,4 +15,14 @@
     <string name="generated_image">Image générée</string>
     <string name="product_image">Image du produit</string>
     <string name="your_photo">Votre photo</string>
+    <string name="dismiss">Fermer</string>
+    <string name="error_network">Problème de connexion, vérifiez votre réseau</string>
+    <string name="error_server">Erreur serveur, réessayez plus tard</string>
+    <string name="error_serialization">Erreur de données, réessayez</string>
+    <string name="error_storage">Erreur de stockage, réessayez</string>
+    <string name="error_unauthorized">Session expirée, veuillez vous reconnecter</string>
+    <string name="error_not_found">Ressource introuvable</string>
+    <string name="error_forbidden">Accès refusé</string>
+    <string name="error_invalid_image">Impossible de lire l\'image sélectionnée</string>
+    <string name="error_unknown">Une erreur est survenue, réessayez</string>
 </resources>

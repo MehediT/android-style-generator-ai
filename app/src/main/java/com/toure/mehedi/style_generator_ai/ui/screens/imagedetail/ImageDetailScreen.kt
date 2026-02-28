@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.toure.mehedi.style_generator_ai.R
+import com.toure.mehedi.style_generator_ai.ui.components.AnimatedErrorToast
 import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
 import com.toure.mehedi.style_generator_ai.ui.models.sampleImageUis
 import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
@@ -104,6 +105,13 @@ fun ImageDetailScreen(
                 ImageTags(tags = product.tags)
             }
         }
+
+        AnimatedErrorToast(
+            error = uiState.error,
+            onDismiss = viewModel::clearError,
+            modifier = Modifier.align(Alignment.BottomCenter),
+            bottomPadding = 96.dp
+        )
 
         Button(
             onClick = { imagePicker.launch("image/*") },
