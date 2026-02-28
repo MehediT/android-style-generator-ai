@@ -1,11 +1,12 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.exception.DomainException
 import com.toure.mehedi.style_generator_ai.domain.model.ImageData
 import com.toure.mehedi.style_generator_ai.domain.usecase.GenerateImageUseCase
+import com.toure.mehedi.style_generator_ai.ui.BaseViewModel
+import com.toure.mehedi.style_generator_ai.ui.models.AppEventBus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,8 +26,9 @@ data class ImageDetailUiState(
 
 @HiltViewModel
 class ImageDetailViewModel @Inject constructor(
+    appEventBus: AppEventBus,
     private val uploadImageUseCase: GenerateImageUseCase,
-) : ViewModel() {
+) : BaseViewModel(appEventBus) {
 
     private val _uiState = MutableStateFlow(ImageDetailUiState())
     val uiState: StateFlow<ImageDetailUiState> = _uiState.asStateFlow()

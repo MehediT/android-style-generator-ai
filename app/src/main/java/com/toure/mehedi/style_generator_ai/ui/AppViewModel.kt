@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.model.AuthState
 import com.toure.mehedi.style_generator_ai.domain.usecase.EnsureAnonymousAuthUseCase
+import com.toure.mehedi.style_generator_ai.ui.models.AppEventBus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,8 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppViewModel @Inject constructor(
+    appEventBus: AppEventBus,
     private val ensureAnonymousAuth: EnsureAnonymousAuthUseCase
-) : ViewModel() {
+) : BaseViewModel(appEventBus) {
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Loading)
     val authState: StateFlow<AuthState> = _authState.asStateFlow()
@@ -37,3 +39,8 @@ class AppViewModel @Inject constructor(
         private const val TAG = "AppViewModel"
     }
 }
+
+
+abstract class BaseViewModel(
+    protected val appEventBus: AppEventBus
+) : ViewModel()

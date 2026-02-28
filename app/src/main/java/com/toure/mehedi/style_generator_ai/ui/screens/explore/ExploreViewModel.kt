@@ -1,9 +1,10 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.explore
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.usecase.GetImagesUseCase
+import com.toure.mehedi.style_generator_ai.ui.BaseViewModel
+import com.toure.mehedi.style_generator_ai.ui.models.AppEventBus
 import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
 import com.toure.mehedi.style_generator_ai.ui.models.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,8 +24,9 @@ data class ExploreUiState(
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
+    appEventBus: AppEventBus,
     private val getImages: GetImagesUseCase
-) : ViewModel() {
+) : BaseViewModel(appEventBus) {
 
     private val _uiState = MutableStateFlow(ExploreUiState())
     val uiState: StateFlow<ExploreUiState> = _uiState.asStateFlow()
