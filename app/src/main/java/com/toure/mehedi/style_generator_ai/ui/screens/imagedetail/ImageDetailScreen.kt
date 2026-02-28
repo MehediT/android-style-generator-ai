@@ -17,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.toure.mehedi.style_generator_ai.R
 import com.toure.mehedi.style_generator_ai.ui.components.AnimatedErrorToast
+import com.toure.mehedi.style_generator_ai.ui.screens.imagedetail.components.ImageDetailImage
+import com.toure.mehedi.style_generator_ai.ui.screens.imagedetail.components.ImageTags
 import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
 import com.toure.mehedi.style_generator_ai.ui.models.sampleImageUis
 import com.toure.mehedi.style_generator_ai.ui.theme.AppTheme
@@ -113,16 +116,28 @@ fun ImageDetailScreen(
             bottomPadding = 96.dp
         )
 
-        Button(
-            onClick = { imagePicker.launch("image/*") },
-            enabled = !uiState.isLoading,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = Spacing.l)
-                .width(240.dp)
-                .height(56.dp)
-        ) {
-            Text(stringResource(R.string.test_on_me))
+        if (uiState.isLoading) {
+            OutlinedButton(
+                onClick = viewModel::cancelGeneration,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = Spacing.l)
+                    .width(240.dp)
+                    .height(56.dp)
+            ) {
+                Text(stringResource(R.string.cancel_generation))
+            }
+        } else {
+            Button(
+                onClick = { imagePicker.launch("image/*") },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = Spacing.l)
+                    .width(240.dp)
+                    .height(56.dp)
+            ) {
+                Text(stringResource(R.string.test_on_me))
+            }
         }
     }
 }

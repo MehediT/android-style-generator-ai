@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,8 +31,16 @@ class ImageDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ImageDetailUiState())
     val uiState: StateFlow<ImageDetailUiState> = _uiState.asStateFlow()
 
+    private var generationJob: Job? = null
+
     companion object {
         private const val TAG = "ImageDetailViewModel"
+    }
+
+    fun cancelGeneration() {
+        generationJob?.cancel()
+        generationJob = null
+        _uiState.update { it.copy(isLoading = false) }
     }
 
     fun clearError() {
@@ -50,7 +59,7 @@ class ImageDetailViewModel @Inject constructor(
             return
         }
 
-        viewModelScope.launch {
+        generationJob = viewModelScope.launch {
             _uiState.update {
                 it.copy(
                     isLoading = true,

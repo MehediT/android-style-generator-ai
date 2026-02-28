@@ -1,4 +1,4 @@
-package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail
+package com.toure.mehedi.style_generator_ai.ui.screens.imagedetail.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
