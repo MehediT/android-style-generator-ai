@@ -31,7 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.toure.mehedi.style_generator_ai.R
-import com.toure.mehedi.style_generator_ai.ui.components.AnimatedErrorToast
 import com.toure.mehedi.style_generator_ai.ui.screens.imagedetail.components.ImageDetailImage
 import com.toure.mehedi.style_generator_ai.ui.screens.imagedetail.components.ImageTags
 import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
@@ -108,13 +107,6 @@ fun ImageDetailScreen(
                 ImageTags(tags = product.tags)
             }
         }
-
-        AnimatedErrorToast(
-            error = uiState.error,
-            onDismiss = viewModel::clearError,
-            modifier = Modifier.align(Alignment.BottomCenter),
-            bottomPadding = 96.dp
-        )
 
         if (uiState.isLoading) {
             OutlinedButton(

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.model.AuthState
 import com.toure.mehedi.style_generator_ai.domain.usecase.EnsureAnonymousAuthUseCase
+import com.toure.mehedi.style_generator_ai.ui.models.AppEvent
 import com.toure.mehedi.style_generator_ai.ui.models.AppEventBus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,5 +43,9 @@ class AppViewModel @Inject constructor(
 
 
 abstract class BaseViewModel(
-    protected val appEventBus: AppEventBus
-) : ViewModel()
+    private val appEventBus: AppEventBus
+) : ViewModel() {
+    val events = appEventBus.events
+    fun dismissEvent(event: AppEvent) = appEventBus.dismiss(event)
+    protected fun emitEvent(event: AppEvent) = appEventBus.emit(event)
+}

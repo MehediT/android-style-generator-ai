@@ -1,13 +1,17 @@
 package com.toure.mehedi.style_generator_ai.ui.screens.explore
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.toure.mehedi.style_generator_ai.domain.usecase.GetImagesUseCase
 import com.toure.mehedi.style_generator_ai.ui.BaseViewModel
+import com.toure.mehedi.style_generator_ai.ui.models.AppEvent
 import com.toure.mehedi.style_generator_ai.ui.models.AppEventBus
 import com.toure.mehedi.style_generator_ai.ui.models.ImageUi
+import com.toure.mehedi.style_generator_ai.ui.models.toErrorResId
 import com.toure.mehedi.style_generator_ai.ui.models.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,13 +22,13 @@ import javax.inject.Inject
 data class ExploreUiState(
     val products: List<ImageUi> = emptyList(),
     val isLoading: Boolean = false,
-    val error: Throwable? = null,
     val selectedProduct: ImageUi? = null
 )
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
     appEventBus: AppEventBus,
+    @ApplicationContext private val context: Context,
     private val getImages: GetImagesUseCase
 ) : BaseViewModel(appEventBus) {
 
@@ -43,13 +47,9 @@ class ExploreViewModel @Inject constructor(
         _uiState.update { it.copy(selectedProduct = product) }
     }
 
-    fun clearError() {
-        _uiState.update { it.copy(error = null) }
-    }
-
     private fun loadProducts() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
+            _uiState.update { it.copy(isLoading = true) }
             getImages()
                 .onSuccess { products ->
                     _uiState.update {
@@ -61,7 +61,8 @@ class ExploreViewModel @Inject constructor(
                 }
                 .onFailure { error ->
                     Log.e(TAG, "loadProducts error: ${error::class.simpleName} — ${error.message}", error)
-                    _uiState.update { it.copy(isLoading = false, error = error) }
+                    _uiState.update { it.copy(isLoading = false) }
+                    emitEvent(AppEvent.Error(context.getString(error.toErrorResId())))
                 }
         }
     }
